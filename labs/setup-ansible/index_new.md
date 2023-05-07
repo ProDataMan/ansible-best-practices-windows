@@ -80,14 +80,29 @@ In the VS Code Explorer pane:
     ```
           
 > In the real world we would not want to store the windows credentials in plain text in our inventory file. We will deal with this issue in the vault lab.    
-    
+ 
+ ## Create an ansible.cfg file to set ansible defaults including the inventory file to use
+ 
+ In the VS Code Explorer pane:
+
+1. Right Click in the explorer pane
+1. Select `New File`
+1. Name the new file 'ansible.cfg'
+1. Paste the code below into the file
+
+```yaml
+[defaults]
+INVENTORY = inventory_simple.yml
+```
+
 ### Commit and Push Changes to GitHub
 
 1. In the sidebar, click on the "Source Control" icon (it looks like a branch).
-2. In the "Source Control" pane, review the changes you made to the file.
-3. Enter a commit message that describes the changes you made.
-4. Click the checkmark icon to commit the changes.
-5. Click on the "..." menu in the "Source Control" pane, and select "Push" to push the changes to GitHub.
+2. In the file menu select Save All
+3. In the "Source Control" pane, review the changes you made to the file.
+4. Enter a commit message that describes the changes you made.
+5. Click the checkmark icon to commit the changes.
+6. Click on the "..." menu in the "Source Control" pane, and select "Push" to push the changes to GitHub.
 
 ## Update the Ansible Control Host
 
