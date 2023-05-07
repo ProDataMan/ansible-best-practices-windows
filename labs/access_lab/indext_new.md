@@ -5,8 +5,8 @@ The Password is
 `JustM300`
 
 ## MacOS 
-Download `Remote Desktop` from the `Microsoft`
-Connect to remote computer user ip address provided
+Download Microsoft Remote Desktop from the Apple App Store Connect to remote computer using ip address provided.
+Connect to remote computer using ip address provided.
 
 ## Windows 
 Connect to remote computer with Remote Desktop with ip address provided
@@ -34,10 +34,8 @@ Continue to do the following steps inside of Window Target 1 RDP Session
   1. Launch VS Code from the Start Menu or Task Bar
   1. Select the Source Control Tab from the toolbar on the left
   1. In the Source Control pain click `Clone Repository`
-  1. Paste the URL https://github.com/ProDataMan/ansible-best-practices-windows.git 
-  1. Enter your GitHub credentials
-  1. Select the `ansible-best-practices-windows` repository
-  1. In the choose a folder dialog navigate to `c:\GitRepos`
+  1. Paste the URL https://github.com/jruels/ansible_best_windows
+  1. In the choose a folder dialog navigate to `c:\gitrepos`
   1. Click the `select as Repository Destination` button
   1. In the Visual Studio Code dialog click the `Open` button to open the repository in VS Code
 
@@ -45,7 +43,7 @@ Continue to do the following steps inside of Window Target 1 RDP Session
 
 Continue to do the following steps inside of Window Target 1 RDP Session
 
-  1. Using Chrome, Log in or Create a new account at `www.GitHub.com`
+  1. Using Chrome, Log in or Create a new account [GitHub](https://github.com/)
   1. Click New Repository
   1. Name the reposistory `ansible-working`
   1. Check the `Add a README file` checkbox
@@ -53,16 +51,16 @@ Continue to do the following steps inside of Window Target 1 RDP Session
   1. In the new repository click the `code` button to expose the `https url` for the repository
   1. Click the copy button to copy the `https url` for the repo to use in the next step
 
-## Open the newly create repository in VS Code
+## Open the newly created repository in VS Code
 
   1. Launch VS Code from the Start Menu or Task Bar
   1. Select the Source Control Tab from the toolbar on the left
-  1. In the Source Control pain click `Clone Repository`
-  1. Paste the URL to newly created Repo
-  1. Enter your GitHub credentials
-  1. Select the `ansible-working` repository you created earlier
-  1. In the choose a folder dialog navigate to `c:\GitRepos`
-  1. Click the `select as Repository Destination` button
-  1. In the Visual Studio Code dialog click the `Open` button to open the repository in VS Code
-  1. In the Toolbar click the  Explorer button
+  1. In the Source Control pain click the three dots on the top right. 
+  2. Click "Clone"
+  3. Paste the URL to newly created Repo
+  5. Select the `ansible-working` repository you created earlier
+  6. In the choose a folder dialog navigate to `c:\gitrepos`
+  7. Click the `select as Repository Destination` button
+  8. In the Visual Studio Code dialog click the `Add to Workspace` button to open the repository in VS Code
+  9. In the left Toolbar click the Explorer button
 
