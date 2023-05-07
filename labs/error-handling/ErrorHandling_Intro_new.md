@@ -41,7 +41,7 @@ In the VS Code Explorer pane:
 1. Name the folder 'error-handler'
 1. in the explorer view expand the ansible-best-practices-windows folder
 1. expand the labs/error-handler folder
-1. drag the maint folder and drop it on the ansible-working/error-handler folder created in the previous step
+1. While holding down the ctrl key drag the maint folder and drop it on the ansible-working/error-handler folder created in the previous step to copy the folder and its contents
 1. Right click on the ansible-working/error-handler folder
 1. Select `New File`
 1. Name the file report.yml
