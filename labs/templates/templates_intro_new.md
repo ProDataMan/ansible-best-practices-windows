@@ -32,11 +32,9 @@ Note: Replace "your-username" with your GitHub username.
 
 Now it's time to create the Ansible playbook that will use the template to configure the web.config file. Follow these steps:
 
-1. Open Visual Studio Code.
-2. Click the "File" menu and choose "Open Folder".
-3. Navigate to the directory where you cloned your repository in Step 2 and click "Open".
-4. Click the "Explorer" icon on the left sidebar.
-5. Right-click on the root folder of your project and choose "New File".
+1. In Visual Studio Code.
+2. Click the "Explorer" icon on the left sidebar.
+5. Right-click on the root folder of your `ansible-working repo and choose "New File".
 6. Name the file `configure.yml`.
 7. Copy and paste the following code into `configure.yml`:
 
@@ -56,10 +54,14 @@ This playbook will use the `template` module to generate the web.config file fro
 
 Next, you need to create the Jinja2 template that will be used to generate the web.config file. Follow these steps:
 
-1. In Visual Studio Code, right-click on the `templates` folder in the root directory of your project.
-2. Choose "New File".
-3. Name the file `web.config.j2`.
-4. Copy and paste the following code into `web.config.j2`:
+1. In Visual Studio Code, 
+2. In Explorer pane right-click on the `ansible-working` folder
+3. Select `New Folder`
+4. Enter `templates` as the folder name.
+5. Right click on the `templates` folder
+6. Choose "New File".
+7. Name the file `web.config.j2`.
+8. Copy and paste the following code into `web.config.j2`:
 
 ```
 <?xml version="1.0"?>
