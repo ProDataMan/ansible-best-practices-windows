@@ -39,7 +39,10 @@ In the VS Code Explorer pane:
 1. Right Click in the explorer pane
 1. Select `New Folder`
 1. Name the folder 'error-handler'
-1. Right click on new folder
+1. in the explorer view expand the ansible-best-practices-windows folder
+1. expand the labs/error-handler folder
+1. drag the maint folder and drop it on the ansible-working/error-handler folder created in the previous step
+1. Right click on the ansible-working/error-handler folder
 1. Select `New File`
 1. Name the file report.yml
 1. Enter the name and content details below:
@@ -56,8 +59,6 @@ First, we'll specify our **host** and **tasks** (**name**, and **debug** message
         dest: /home/ubuntu/ansible-working/error-handling/transaction_list
     - debug: msg="File downloaded"
 ```
-
-
 
 ### Add connection failure logic
 
