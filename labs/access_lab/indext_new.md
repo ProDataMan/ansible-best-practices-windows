@@ -53,12 +53,13 @@ Continue to do the following steps inside of Window Target 1 RDP Session
 
   1. Launch VS Code from the Start Menu or Task Bar
   1. Select the Source Control Tab from the toolbar on the left
-  1. In the Source Control pain click `Clone Repository`
-  1. Paste the URL to newly created Repo
-  1. In the choose a folder dialog navigate to `c:\gitrepos`
-  1. Click the `select as Repository Destination` button
-  1. In the Visual Studio Code dialog click the `Add to Workspace` button to open the repository in VS Code
-  1. In the left Toolbar click the Explorer button
+  1. In the Source Control pain click the three dots on the top right.
+  1. Click "Clone
+  2. Paste the URL to newly created Repo
+  3. In the choose a folder dialog navigate to `c:\gitrepos`
+  4. Click the `select as Repository Destination` button
+  5. In the Visual Studio Code dialog click the `Add to Workspace` button to open the repository in VS Code
+  6. In the left Toolbar click the Explorer button
 
 ## Initial Setup Complete
 At this point you should be connected to your Windows Server with the Classfiles repo (ansible-best-practices-windows) and the Working repo (ansible-working) cloned.  You should be able to see both repos in Visual Studio Code in both the Explorer pane as well as the Sorce Control pane.
