@@ -37,12 +37,14 @@ In the VS Code Explorer pane:
             webservers:
                hosts:
                  windows_server1:
-                   ansible_host: 192.168.1.102
+                   ansible_host: <ip address provided>
                  windows_server2:
-                   ansible_host: 192.168.1.103  
+                   ansible_host: <ip address provided>  
   
    ```
-   Replace `<win-host-ip>` with the IP address of the Windows host, `<win-user>` with the administrative user account name, and `<win-password>` with the password for the user account.
+   Replace `<ip address provided>` with the IP address of the Ansible host and Windows host provided to you.
+   
+   > Notice that this inventory file expects that the variable for windows host connections will be passed in by the playbook
 
    Note: If your Windows host is on a domain, you can use the `ansible_domain_username` and `ansible_domain_password` parameters instead of `ansible_user` and `ansible_password`.
 
