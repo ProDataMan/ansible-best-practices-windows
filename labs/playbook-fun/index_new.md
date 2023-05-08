@@ -21,19 +21,26 @@ In the VS Code Explorer pane:
 
 3. Enter the name and content details below:
 
-4. Create a new file named `inventory_simple.yml` and open it in your preferred text editor.
+4. Create a new file named `inventory_groups.yml` and open it in your preferred text editor.
 
 5. Define the Windows host details in the inventory file in the following format:
 
    ```
    all:
-     hosts:
-       win-host:
-         ansible_host: <win-host-ip>
-         ansible_user: <win-user>
-         ansible_password: <win-password>
-         ansible_connection: winrm
-         ansible_winrm_server_cert_validation: ignore
+     children:
+       linux:
+         hosts:
+           ansible_controler:
+             ansible_host: <ip address provided>
+       windows:
+         children:
+            webservers:
+               hosts:
+                 windows_server1:
+                   ansible_host: 192.168.1.102
+                 windows_server2:
+                   ansible_host: 192.168.1.103  
+  
    ```
    Replace `<win-host-ip>` with the IP address of the Windows host, `<win-user>` with the administrative user account name, and `<win-password>` with the password for the user account.
 
@@ -52,15 +59,39 @@ In the VS Code Explorer pane:
 
    ```
    ---
-   - name: Playbook-Fun
-     hosts: win-host
-     gather_facts: no
+   - name: Ensure IIS is installed and started 
+     hosts: webservers
+     become: yes 
+     become_method: runas
+     become_user: Administrator
+     vars:
+       ansible_connection: winrm
+       ansible_winrm_server_cert_validation: ignore
+       user: Administrator
+       pwd: JustM300
+       service_name: IIS Admin Service   
      tasks:
-     - name: Run PowerShell Command
-       win_shell: |
-         Write-Output "Hello World"
+       - name: Ensure IIS Server is present 
+         win_feature:
+           name:  Web-Server
+           state: present
+           restart: no
+           include_sub_features: yes
+           include_management_tools: yes  
+       - name: Ensure latest web files are present
+         win_copy:
+           src: files/
+           dest: c:\inetpub\wwwroot\
+           force: yes
+       - name: Ensure IIS is started
+         win_service:
+           name: "{{ service_name }}"
+           state: started
    ```
-   This playbook contains a single task that runs a PowerShell command on the Windows host to display "Hello World" in the console.
+   
+This playbook contains a 3 tasks that Make sure IIS is present, copies web files to the wwwroot folder then makes sure that the IIS Admin service is running.
+
+Save all files
 
 ### Commit and Push Changes to GitHub
 
