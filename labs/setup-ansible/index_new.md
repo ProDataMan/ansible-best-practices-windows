@@ -114,9 +114,9 @@ INVENTORY = inventory_simple.yml
 
 Here we will attempt to verify each managed node is able to be accessed by Ansible from the control node using the `win_ping` module.
 
-To verify each node, run the following as the `ansible` user from the `Ansible Control` host:
+To verify each node, run the following from the `Ansible Control` host:
 
-First we will clone the `ansible-working` repository you created earlier. Return to GitHub and copy the https url to your `ansible-working` repository. Clone the `ansible-working` repository to retrieve our `inventory_simple.yml` file.
+First we will clone the `ansible-working` repository you created earlier. Return to GitHub and copy the https url to your `ansible-working` repository. Clone the `ansible-working` repository to retrieve our `inventory_simple.yml` and ansible.cfg files.
 
 ```
 cd /home/ansible
@@ -128,10 +128,10 @@ Enter the working directory and ping the webservers:
 ```
 cd ansible-working
 ansible -i inventory_simple.yml webserver1 -m win_ping 
-ansible -i inventory_simple.yml webserver2 -m win_ping 
+ansible webserver2 -m win_ping 
 ```
 
-> This will fail because we have not yet enabled WinRM or opened its ports on the firewall.
+> This will fail because we have not yet enabled WinRM or opened its ports on the firewall. Also notice we get the same results with or without -i inventory_simple.yml
   
 ## Enable WinRM on Windows Targets
 
@@ -168,7 +168,7 @@ In the VS Code Explorer pane:
 5. Execute the Script 
 1. Save, Commit and Sync the PowerShell Script with GitHub
 
-Repeat these steps on Windows Target 2 by opening a new Remote Desktop Session to Windows Target 2
+> You may be asked to install or update powershell. follow the prompts to complete this task
 
 ## Verify Each Managed Node Is Accessible (Again)
 
@@ -185,7 +185,7 @@ To verify each node, use the win_ping module again:
   To redirect output of a successful command to `/home/ansible/ansible-working/output`:
 
   ```
-  ansible -i inventory webserver1 -m win_ping > output 
+  ansible webserver1 -m win_ping > output 
   ```
 
 ## Conclusion
