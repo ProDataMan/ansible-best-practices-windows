@@ -54,6 +54,8 @@ In the VS Code Explorer pane:
 1. Right Click in the explorer pane
 1. Select `New Directory`
 1. Create a new directory named `playbook-fun`
+1. in the explorer view expand the ansible-best-practices-windows folder expand the labs/playbook-fun
+1. While holding down the ctrl key drag the files folder and drop it on the ansible-working/playbook-fun folder created in the previous step to copy the folder and its contents
 1. Right Click in the explorer pane
 1. Select 'New File'
 1. Enter `playbook.yml` as the name:
