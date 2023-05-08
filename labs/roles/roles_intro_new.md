@@ -25,22 +25,21 @@ The first step is to create a Windows user with permissions to install services.
 2. Open the `tasks/main.yml` file in the `create-user` role and add the following code:
 
    ```
-   - name: Create user
-     win_user:
-       name: ansible
-       password: Password123
-       groups:
-         - Administrators
-       state: present
-       password_never_expires: yes
-
-   - name: Grant user rights
-     win_command: 'net localgroup "Remote Desktop Users" ansible /add'
-     become: yes
-
    - name: Grant user privileges
      win_command: 'net localgroup "Administrators" ansible /add'
      become: yes
+     ignore_errors: yes
+     register: result
+
+   - name: Check if user is already a member of the group
+     debug:
+       msg: "User ansible is already a member of the Administrators group"
+     when: "'The specified account name is already a member of the group.' in result.stderr"
+
+   - name: Add user to the group if not already a member
+     win_command: 'net localgroup "Administrators" ansible /add'
+     become: yes
+     when: "'The specified account name is already a member of the group.' not in result.stderr"
    ```
 
    This code creates a new user named `ansible` with the password `Password123`, adds the user to the `Administrators` group, grants the user remote desktop access, and grants the user administrator privileges.
@@ -55,6 +54,7 @@ The next step is to connect Ansible with the `ansible` user account you just cre
 
    ```
    [defaults]
+   INVENTORY = inventory_groups.yml
    remote_user = ansible
    ```
 
@@ -96,24 +96,16 @@ The next step is to create a Web.config file using a template.
    ansible-galaxy role init create-web-config
    ```
 
-2. Create a new folder named `templates` inside the `create-web-config` role folder.
+2. In the `templates` folder inside the `create-web-config` role folder.
 
-3. Inside the `templates` folder, create a new file named `web.config.j2` and add the following code:
+3. Create a new file named `web.config.j2` and add the following code:
 
    ```
    <?xml version="1.0" encoding="UTF-8"?>
    <configuration>
-     <system.webServer>
-       <handlers>
-         <add name="Python FastCGI"
-              path="*"
-              verb="*"
-              modules="FastCgiModule"
-              scriptProcessor="{{ python_path }}\\python.exe|{{ python_path }}\\Lib\\site-packages\\wfastcgi.py"
-              resourceType="Unspecified"
-              requireAccess="Script"/>
-       </handlers>
-     </system.webServer>
+     <appSettings>
+       <add key="sqlConnectionString" value="Server={{ ip_address }};Database={{ database_name }};User ID={{ db_username }};Password={{ db_password }};"/>
+     </appSettings>
    </configuration>
    ```
 
@@ -122,12 +114,18 @@ The next step is to create a Web.config file using a template.
 4. Open the `tasks/main.yml` file in the `create-web-config` role and add the following code:
 
    ```
-   - name: Create Web.config file
-     template:
-       src: web.config.j2
-       dest: C:\inetpub\wwwroot\web.config
-       vars:
-         python_path: C:\Python37
+   - name: Configure web.config for SQL connection string
+     hosts: all
+     vars:
+       ip_address: 10.0.0.1
+       database_name: mydatabase
+       db_username: sqluser
+       db_password: Pa$$w0rd
+     tasks:
+       - name: Create web.config file
+         template:
+           src: templates/web.config.j2
+           dest: c:/inetpub/wwwroot/web.config
    ```
 
    This code creates a new `web.config` file using the `web.config.j2` template and copies it to the `C:\inetpub\wwwroot` folder. The `{{ python_path }}` variable is replaced with the path to Python 3.7.
@@ -161,7 +159,7 @@ The next step is to copy the web files to the `c:\inetpub\wwwroot` folder.
 
 The final step is to combine the roles in an Ansible playbook.
 
-1. Create a new file named `playbook.yml` in your Ansible Control host and add the following code:
+1. Create a new file named `roles_playbook.yml` in your Ansible Control host in the ansible-working folder and add the following code:
 
    ```
    ---
@@ -176,7 +174,7 @@ The final step is to combine the roles in an Ansible playbook.
 
    This code defines an Ansible playbook that runs the `create-user`, `install-iis`, `create-web-config`, and `copy-web-files` roles.
 
-2. Save the `playbook.yml` file and close it.
+2. Save the `roles_playbook.yml` file and close it.
 
 ## Step 7: Editing Files Using Visual Studio Code
 
@@ -225,7 +223,7 @@ To execute the Ansible playbook, follow these steps:
 3. Run the following command to execute the playbook:
 
    ```
-   ansible-playbook playbook.yml
+   ansible-playbook roles_playbook.yml
    ```
 
    This command will run the `playbook.yml` file and execute the roles in the specified order.
