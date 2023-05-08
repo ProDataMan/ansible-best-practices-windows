@@ -47,8 +47,3 @@ ansible webserver1 -m win_package -a "path=C:\gitrepos\7z.msi state=present"
 ```bash
 ansible webserver1 -m win_command -a "powershell Get-WmiObject -Class Win32_Product | Select-Object Name, Version"
 ```
-
-6. Run the following ad-hoc command to uninstall a package from the Windows host:
-```bash
-ansible webserver1 -m win_package -a "product_id=7-Zip state=absent"
-```
