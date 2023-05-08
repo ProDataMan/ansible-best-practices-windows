@@ -23,8 +23,7 @@ This lab requires the following:
 These instructions will guide you through the process of provisioning an IIS (Internet Information Services) server using Ansible on a Windows host.
 
 ### Prerequisites
-
-- A Windows host running IIS
+- A Windows host
 - Python 3 installed on the Windows host
 - Pip3 installed on the Windows host
 
