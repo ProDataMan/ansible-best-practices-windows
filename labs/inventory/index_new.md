@@ -34,11 +34,8 @@ In the VS Code Explorer pane:
 
 1. Right Click on the `ansible-working` repo in the explorer pane
 1. Select `New File`
-1. Name the new file 'inventory_vars.yml'
+1. Name the new file `inventory_vars.yml`
 1. Paste the code below into the file
-
-
-Create an inventory file with the following content:
 
 ```yml
 all:
