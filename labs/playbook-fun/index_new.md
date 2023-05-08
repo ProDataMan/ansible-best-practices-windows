@@ -91,9 +91,9 @@ In the VS Code Explorer pane:
            state: started
    ```
    
-This playbook contains a 3 tasks that Make sure IIS is present, copies web files to the wwwroot folder then makes sure that the IIS Admin service is running.
+This playbook contains three tasks that ensure IIS is present, copies web files to the `wwwroot` folder then confirms the `IIS Admin` service is running.
 
-Update the ansible.cfg to set the new inventory_groups.yml as the default inventory file
+Update the `ansible.cfg` to set the new `inventory_groups.yml` as the default inventory file
 
 1. In VS Code on the Explorer pane open the ansible.cfg file in the root of the `ansible-working` repo
 2. update the inventory path as below:
