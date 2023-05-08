@@ -30,16 +30,14 @@ In the VS Code Explorer pane:
      children:
        linux:
          hosts:
-           ansible_controler:
-             ansible_host: <ip address provided>
+           ansible_controller:
+             ansible_host: <ip address provided for Ubuntu VM>
        windows:
          children:
             webservers:
                hosts:
                  windows_server1:
-                   ansible_host: <ip address provided>
-                 windows_server2:
-                   ansible_host: <ip address provided>  
+                   ansible_host: <ip address provided for Windows VM>
   
    ```
    Replace `<ip address provided>` with the IP address of the Ansible host and Windows host provided to you.
