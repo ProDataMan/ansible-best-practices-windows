@@ -20,12 +20,11 @@ We will do most of our work on Windows Target 1
 Use Remote Desktop to remote into Windows Target 1 (ip address provided)
 
   1. In remote desktop enter the ip address for Windows Target 1
-  2. Click `Show Options`
-  3. Enter `Administrator` as the user name
-  1. Check the checkbox to `Allow me to save credentials`
-  4. Click `Connect`
-  5. Enter `JustM300` as the password
-  6. Click `Yes`
+  1. Click `Show Options`
+  1. Enter `Administrator` as the user name
+  1. Click `Connect`
+  1. Enter `JustM300` as the password
+  1. Click `Yes`
 
 ## Clone the ClassFiles Repo
 
