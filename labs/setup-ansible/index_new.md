@@ -99,8 +99,17 @@ INVENTORY = inventory_simple.yml
 2. In the file menu select Save All
 3. In the "Source Control" pane, review the changes you made to the file.
 4. Enter a commit message that describes the changes you made.
-5. Click the checkmark icon to commit the changes.
-6. Click on the "..." menu in the "Source Control" pane, and select "Push" to push the changes to GitHub.
+5. Click the checkmark icon to commit the changes.   
+If you get an error about "user.email" and "user.name" not being set, do the following. 
+
+1. Open PowerShell and type: 
+   1. `cd "C:\Program Files\Git\bin"`
+   2. `git config --global user.name "< your name >`
+   3. `git config --global user.email "< your email address >"`
+7. Click on the "..." menu in the "Source Control" pane, and select "Push" to push the changes to GitHub.
+8. If you are prompted, log into GitHub to authenticate.
+
+7. Click on the "..." menu in the "Source Control" pane, and select "Push" to push the changes to GitHub.
 
 ## Update the Ansible Control Host
 
