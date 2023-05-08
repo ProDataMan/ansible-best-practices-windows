@@ -121,13 +121,19 @@ Save all files
 
 ## Run the Playbook
 
+since we have specified the inventory_groups.yml inventory file as our default in ansible.cfg we dont need to specify -i inventory_groups.yml when running our playbook Instead of running `ansible-playbook -i inventory.yml` playbook.yml we can simply run `ansible-playbook playbook.yml`
+
    ```
-   ansible-playbook -i inventory.yml playbook.yml
+   ansible-playbook playbook.yml
    ```
 
    This command will run the `playbook.yml` playbook against the Windows host defined in the `inventory.yml` file.
 
-   Verify that the playbook has run successfully by checking the output in the console. You should see "Hello World" displayed in the console.
+   Verify that the playbook has run successfully by checking the output in the console.
+   
+   You can also open Chrome and navigate to http://<ip address provided for windows host>
+   
+   You should see Hello, World! because you can't have a code demo without at least one Hello, World.
 
 Congratulations! You have successfully run an Ansible playbook on a Windows host.
 
