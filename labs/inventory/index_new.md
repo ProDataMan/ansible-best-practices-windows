@@ -131,15 +131,16 @@ ansible webservers -i <path to inventory file> -m <module name> -a "<module argu
 
 Replace `<path to inventory file>` with the path to your inventory file, `<module name>` with the name of the Ansible module you want to use (e.g. `win_command`), and `<module arguments>` with the arguments for the module.
 
-For example, to run the `win_command` module to execute the `dir` command on the IIS server, use the following command:
+For example, to run the `win_command` module to execute the `powershell Get-Date` command on the IIS server, use the following command:
 
 ```bash
-ansible webservers -i inventory_vars.yml -m win_command -a "cmd='dir'"
+ansible webserver1 -m win_command -a "powershell Get-Date"
 ```
+
 Or `win_feature` to install the `web-server` feature (IIS)
 
 ```
-ansible webservers - inventory_vars.yml -m win_feature -a "Web-Server"
+ansible webservers -m win_feature -a "name=Web-Server state=present"
 ```
 ### Running Playbooks
 
@@ -187,7 +188,7 @@ In the VS Code Explorer pane:
 4. Execute the playbook.
 
 ```bash
-ansible-playbook install_iis.yml -i inventory_vars.yml
+ansible-playbook install_iis.yml
 ```
 
 This will install IIS on the target server.
