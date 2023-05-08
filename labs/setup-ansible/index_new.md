@@ -54,10 +54,10 @@ pip3 install boto3 botocore
 
 Back on the Windows machine, in the VS Code Explorer pane:
 
-1. Under the "ansible-working" directory
+1. Under the `ansible-working` directory
 2. Right Click in the explorer pane
 3. Select `New File`
-4. Name the new file 'inventory_simple.yml'
+4. Name the new file `inventory_simple.yml`
 5. Paste the code below into the file
 
     ```
@@ -85,7 +85,7 @@ Back on the Windows machine, in the VS Code Explorer pane:
 
 1. Right Click in the explorer pane
 1. Select `New File`
-1. Name the new file 'ansible.cfg'
+1. Name the new file `ansible.cfg`
 1. Paste the code below into the file
 
 ```yaml
@@ -98,8 +98,9 @@ INVENTORY = inventory_simple.yml
 1. In the sidebar, click on the "Source Control" icon (it looks like a branch).
 2. In the file menu select Save All
 3. In the "Source Control" pane, review the changes you made to the file.
-4. Enter a commit message that describes the changes you made.
-5. Click the checkmark icon to commit the changes.   
+4. Under the `ansible-working` repo, enter a commit message that describes the changes you made.
+5. Click the checkmark icon to commit the changes.  
+6. Click "yes", if prompted to stage all files. 
 If you get an error about "user.email" and "user.name" not being set, do the following. 
 
 1. Open PowerShell and type: 
@@ -114,8 +115,16 @@ If you get an error about "user.email" and "user.name" not being set, do the fol
 ## Update the Ansible Control Host
 
 1. Return to the connection to your Ansible control host in PuTTY on Windows Target 1.
-2. Navigate to the directory where you cloned repository.
-3. Run `git pull` to update the repository on the control host.
+2. Clone the `ansible-working` repository you created earlier. 
+3. Return to GitHub and copy the https url to your `ansible-working` repository. 
+4. Clone the `ansible-working` repository to retrieve our `inventory_simple.yml` and `ansible.cfg` files.
+
+    ```
+    cd /home/ansible
+    git clone https://github.com/<Your Account>/ansible-working.git
+    ```
+3. Navigate to the directory where you cloned repository.
+4. Run `git pull` to update the repository on the control host.
 
 ## Verify Each Managed Node Is Accessible
 
@@ -123,35 +132,30 @@ Here we will attempt to verify each managed node is able to be accessed by Ansib
 
 To verify each node, run the following from the `Ansible Control` host:
 
-First we will clone the `ansible-working` repository you created earlier. Return to GitHub and copy the https url to your `ansible-working` repository. Clone the `ansible-working` repository to retrieve our `inventory_simple.yml` and ansible.cfg files.
 
-```
-cd /home/ansible
-git clone https://github.com/<Your Account>/ansible-working.git
-```
 
 Enter the working directory and ping the webservers:
 
 ```
 cd ansible-working
 ansible -i inventory_simple.yml webserver1 -m win_ping 
-ansible webserver2 -m win_ping 
+ansible webserver2 -m ping 
 ```
 
-> This will fail because we have not yet enabled WinRM or opened its ports on the firewall. Also notice we get the same results with or without -i inventory_simple.yml
+> The `webserver1` host will fail because we have not yet enabled WinRM or opened its ports on the firewall. Also notice we get the same results with or without -i inventory_simple.yml
+> The `webserver2` host will prompt you to accept the key. Type `yes` to confirm and it will respond with a `pong`.
   
 ## Enable WinRM on Windows Targets
 
 Now, we'll configure WinRM for each windows node by creating a key using it to create a listener then opening the ports on the firewall.
 
-Perform the following steps in the RDP session for Windows Target 1 then repeat by opening another Remote Desktop Session to Windows Target 2.
+Perform the following steps in the RDP session for Windows Target 1.
 
 In the VS Code Explorer pane:
 
 1. Right Click in the explorer pane
 1. Select `New File`
-1. Name
-1. Name the new file ConfigureWindowsTargets.ps1
+1. Name the new file `ConfigureWindowsTargets.ps1`
 1. Paste the code below into the file
 
   ```
@@ -169,22 +173,24 @@ In the VS Code Explorer pane:
   Enable-PSRemoting -Force
   # Restart WinRM
   Restart-Service winrm
-  #Repeat these steps for `Windows Target 2
   ```
     
 5. Execute the Script 
 1. Save, Commit and Sync the PowerShell Script with GitHub
+2. Open PowerShell and run
+    ```powershell
+    ./ConfigureWindowsTargets.ps1
+    ```
 
 > You may be asked to install or update powershell. follow the prompts to complete this task
 
 ## Verify Each Managed Node Is Accessible (Again)
 
-Lets use the `win_ping` module again to enure that we can access the Windows Targets on their newly enabled listeners.
-To verify each node, use the win_ping module again:
+Lets use the `ping` and `win_ping` modules again to enure that we can access the Windows and Ubuntu targets on their newly enabled listeners.
 
   ```
   ansible -i inventory_simple.yml webserver1 -m win_ping 
-  ansible -i inventory_simple webserver2 -m win_ping 
+  ansible -i inventory_simple webserver2 -m ping 
   ```
 
   > This will succeed now because WinRM is enabled and its ports are opened on the firewall
@@ -193,6 +199,11 @@ To verify each node, use the win_ping module again:
 
   ```
   ansible webserver1 -m win_ping > output 
+  ```
+  
+  Confirm the output was redirected successfully. 
+  ```
+  cat output
   ```
 
 ## Conclusion
