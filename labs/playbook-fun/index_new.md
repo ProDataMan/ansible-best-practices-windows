@@ -15,7 +15,7 @@ In this lab, you will learn how to use Ansible to manage Windows hosts using the
 Perform the following steps on Windows Target 1 in VS Code
 In the VS Code Explorer pane:
 
-1. Right Click in the explorer pane
+1. Right Click the `ansible-working` repo in the explorer pane
 
 2. Select `New File`
 
@@ -91,6 +91,15 @@ In the VS Code Explorer pane:
    
 This playbook contains a 3 tasks that Make sure IIS is present, copies web files to the wwwroot folder then makes sure that the IIS Admin service is running.
 
+Update the ansible.cfg to set the new inventory_groups.yml as the default inventory file
+
+1. In VS Code on the Explorer pane open the ansible.cfg file in the root of the `ansible-working` repo
+2. update the inventory path as below:
+
+```
+[defaults]
+INVENTORY = inventory_groups.yml
+```
 Save all files
 
 ### Commit and Push Changes to GitHub
