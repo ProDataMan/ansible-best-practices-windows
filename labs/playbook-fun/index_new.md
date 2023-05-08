@@ -68,9 +68,10 @@ In the VS Code Explorer pane:
      become_user: Administrator
      vars:
        ansible_connection: winrm
+       ansible_winrm_transport: ntlm
        ansible_winrm_server_cert_validation: ignore
-       user: Administrator
-       pwd: JustM300
+       ansible_user: Administrator
+       ansible_password: JustM300
        service_name: IIS Admin Service   
      tasks:
        - name: Ensure IIS Server is present 
