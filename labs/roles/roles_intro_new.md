@@ -114,18 +114,10 @@ The next step is to create a Web.config file using a template.
 4. Open the `tasks/main.yml` file in the `create-web-config` role and add the following code:
 
    ```
-   - name: Configure web.config for SQL connection string
-     hosts: all
-     vars:
-       ip_address: 10.0.0.1
-       database_name: mydatabase
-       db_username: sqluser
-       db_password: Pa$$w0rd
-     tasks:
-       - name: Create web.config file
-         template:
-           src: templates/web.config.j2
-           dest: c:/inetpub/wwwroot/web.config
+   - name: Create web.config file
+     template:
+       src: templates/web.config.j2
+       dest: c:/inetpub/wwwroot/web.config
    ```
 
    This code creates a new `web.config` file using the `web.config.j2` template and copies it to the `C:\inetpub\wwwroot` folder. The `{{ python_path }}` variable is replaced with the path to Python 3.7.
@@ -165,6 +157,19 @@ The final step is to combine the roles in an Ansible playbook.
    ---
    - name: Install IIS and configure website
      hosts: windows
+     become: yes
+     become_method: runas
+     become_user: Administrator
+     vars:
+         ansible_user: administrator
+         ansible_password: JustM300
+         ansible_connection: winrm
+         ansible_winrm_transport: ntlm
+         ansible_winrm_server_cert_validation: ignore
+         ip_address: 10.0.0.1
+         database_name: mydatabase
+         db_username: sqluser
+         db_password: Pa$$w0rd
      roles:
        - create-user
        - install-iis
