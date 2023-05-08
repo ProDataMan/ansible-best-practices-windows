@@ -83,7 +83,7 @@ In the VS Code Explorer pane:
            include_management_tools: yes  
        - name: Ensure latest web files are present
          win_copy:
-           src: files/
+           src: playbook-fun/files/
            dest: c:\inetpub\wwwroot\
            force: yes
        - name: Ensure IIS is started
