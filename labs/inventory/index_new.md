@@ -35,7 +35,7 @@ Perform the following steps in VS Code on Windows Target 1
 
 In the VS Code Explorer pane:
 
-1. Right Click in the explorer pane
+1. Right Click on the `ansible-working` repo in the explorer pane
 1. Select `New File`
 1. Name the new file 'inventory_vars.yml'
 1. Paste the code below into the file
@@ -45,21 +45,24 @@ Create an inventory file with the following content:
 
 ```yml
 all:
-  hosts:
-    webserver1:
-      ansible_host: <IP or hostname of the IIS server>:
-      ansible_connection: winrm
-      ansible_winrm_transport: ntlm
-      ansible_winrm_server_cert_validation: ignore
-      ansible_user: <username with administrative privileges>
-      ansible_password: <password for the username>
-    webserver2:    
-      ansible_host: <IP or hostname of the IIS server>:
-      ansible_connection: winrm
-      ansible_winrm_transport: ntlm
-      ansible_winrm_server_cert_validation: ignore
-      ansible_user: <username with administrative privileges>
-      ansible_password: <password for the username>
+  children:
+    webservers:
+      hosts:
+        webserver1:
+          ansible_host: <IP or hostname of the IIS server>
+          ansible_host: <IP or hostname of the IIS server>:
+          ansible_connection: winrm
+          ansible_winrm_transport: ntlm
+          ansible_winrm_server_cert_validation: ignore
+          ansible_user: <username with administrative privileges>
+          ansible_password: <password for the username>
+        webserver2:    
+          ansible_host: <IP or hostname of the IIS server>
+          ansible_connection: winrm
+          ansible_winrm_transport: ntlm
+          ansible_winrm_server_cert_validation: ignore
+          ansible_user: <username with administrative privileges>
+          ansible_password: <password for the username>
 
 ```
 Replace `<IP or hostname of the IIS server>` with the IP address or hostname of your IIS server, and replace `<username with administrative privileges>` and `<password for the username>` with the username and password of an account with administrative privileges on the IIS server.
@@ -71,26 +74,38 @@ update inventory_vars.yml file with the following format for the number of serve
 
 ```yml
 all:
-  hosts:
-    webserver1:
-      ansible_host: <IP or hostname of the IIS server>:
-    webserver2:
-      ansible_host: <IP or hostname of the IIS server>:
-    webserver3:
-      ansible_host: <IP or hostname of the IIS server>:
-    webserver4:
-      ansible_host: <IP or hostname of the IIS server>:
-    webserver5:
-      ansible_host: <IP or hostname of the IIS server>:    
-  vars:
-    ansible_connection: winrm
-    ansible_winrm_transport: ntlm
-    ansible_winrm_server_cert_validation: ignore
-    ansible_user: <username with administrative privileges>
-    ansible_password: <password for the username>
+  children:
+    webservers:
+      hosts:
+        webserver1:
+          ansible_host: <IP or hostname of the IIS server>
+        webserver2:
+          ansible_host: <IP or hostname of the IIS server>
+        webserver3:
+          ansible_host: <IP or hostname of the IIS server>
+        webserver4:
+          ansible_host: <IP or hostname of the IIS server>
+        webserver5:
+          ansible_host: <IP or hostname of the IIS server>    
+    vars:
+      ansible_connection: winrm
+      ansible_winrm_transport: ntlm
+      ansible_winrm_server_cert_validation: ignore
+      ansible_user: <username with administrative privileges>
+      ansible_password: <password for the username>
 ```
 
 > Notice that by moving all repeaded elements into the vars: section we can reduce duplication when create multiple host entries
+
+Update the ansible.cfg to set the new inventory_vars.yml as the default inventory file
+
+1. In VS Code on the Explorer pane open the ansible.cfg file in the root of the `ansible-working` repo
+2. update the inventory path as below:
+
+```
+[defaults]
+INVENTORY = inventory_vars.yml
+```
 
 ### Commit and Push Changes to GitHub
 
