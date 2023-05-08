@@ -95,7 +95,7 @@ This playbook contains three tasks that ensure IIS is present, copies web files 
 
 Update the `ansible.cfg` to set the new `inventory_groups.yml` as the default inventory file
 
-1. In VS Code on the Explorer pane open the ansible.cfg file in the root of the `ansible-working` repo
+1. In VS Code on the Explorer pane open the `ansible.cfg` file in the root of the `ansible-working` repo
 2. update the inventory path as below:
 
 ```
@@ -121,7 +121,7 @@ Save all files
 
 ## Run the Playbook
 
-since we have specified the inventory_groups.yml inventory file as our default in ansible.cfg we dont need to specify -i inventory_groups.yml when running our playbook Instead of running `ansible-playbook -i inventory.yml` playbook.yml we can simply run `ansible-playbook playbook.yml`
+since we have specified the `inventory_groups.yml` inventory file as our default in `ansible.cfg` we dont need to specify `-i inventory_groups.yml` when running our playbook Instead of running `ansible-playbook -i inventory.yml playbook.yml` we can simply run `ansible-playbook playbook.yml`
 
    ```
    ansible-playbook playbook.yml
