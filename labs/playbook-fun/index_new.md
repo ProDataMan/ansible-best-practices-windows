@@ -132,7 +132,7 @@ since we have specified the `inventory_groups.yml` inventory file as our default
 
    Verify that the playbook has run successfully by checking the output in the console.
    
-   You can also open Chrome and navigate to http://<ip address provided for windows host>
+   You can also open Chrome and navigate to `http://<ip address provided for windows host>`
    
    You should see Hello, World! because you can't have a code demo without at least one Hello, World.
 
