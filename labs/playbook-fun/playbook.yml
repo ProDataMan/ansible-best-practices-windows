@@ -1,0 +1,29 @@
+---
+- name: Ensure IIS is installed and started 
+  hosts: webservers
+  become: yes 
+  become_method: runas
+  become_user: Administrator
+  vars:
+    ansible_connection: winrm
+    ansible_winrm_server_cert_validation: ignore
+    user: Administrator
+    pwd: JustM300
+    service_name: IIS Admin Service   
+  tasks:
+    - name: Ensure IIS Server is present 
+      win_feature:
+        name:  Web-Server
+        state: present
+        restart: no
+        include_sub_features: yes
+        include_management_tools: yes  
+    - name: Ensure latest web files are present
+      win_copy:
+        src: files/
+        dest: c:\inetpub\wwwroot\
+        force: yes
+    - name: Ensure IIS is started
+      win_service:
+        name: "{{ service_name }}"
+        state: started
