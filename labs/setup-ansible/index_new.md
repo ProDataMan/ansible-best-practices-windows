@@ -52,31 +52,29 @@ Install boto3 and botocore
 pip3 install boto3 botocore
 ```
 
-In the VS Code Explorer pane:
+Back on the Windows machine, in the VS Code Explorer pane:
 
-1. Right Click in the explorer pane
-1. Select `New File`
-1. Name the new file 'inventory_simple.yml'
-1. Paste the code below into the file
+1. Under the "ansible-working" directory
+2. Right Click in the explorer pane
+3. Select `New File`
+4. Name the new file 'inventory_simple.yml'
+5. Paste the code below into the file
 
     ```
     ---
     webservers:
       hosts:
         webserver1:
-          ansible_host: <ip address provided>
+          ansible_host: <ip address provided for Windows VM>
           ansible_user: Administrator
           ansible_password: JustM300
           ansible_connection: winrm
           ansible_winrm_transport: ntlm
           ansible_winrm_server_cert_validation: ignore
         webserver2:
-          ansible_host: <ip address provided>
-          ansible_user: Administrator
-          ansible_password: JustM300
-          ansible_connection: winrm
-          ansible_winrm_transport: ntlm
-          ansible_winrm_server_cert_validation: ignore
+          ansible_host: <ip address provided for Ubuntu VM>
+          ansible_user: ubuntu
+          ansible_ssh_private_key_file: /home/ubuntu/.ssh/id_rsa
     ```
           
 > In the real world we would not want to store the windows credentials in plain text in our inventory file. We will deal with this issue in the vault lab.    
