@@ -17,8 +17,6 @@ This lab requires the following:
   - Ansible 2.9 or later installed
   - Access to the Windows host via WinRM
 
-## Lab Instructions
-Sure, here are the instructions in Github Markdown format, including the YAML formatted inventory file, and additional details for installing Ansible using pip3:
 
 ## Provisioning an IIS Server using Ansible
 
