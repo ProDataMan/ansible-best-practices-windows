@@ -29,6 +29,8 @@ You should see a success message if the Windows host is reachable.
 
 This command will retrieve various information about the Windows host, including hardware and software details, network settings, and more.
 
+The following commands can be used to download, install, and uninstall the `7-Zip` package. After each command, confirm on the Windows server it was successful.
+
 3. Run the following ad-hoc command to download the 7zip MSI package on the Windows host:
 
 ```bash
