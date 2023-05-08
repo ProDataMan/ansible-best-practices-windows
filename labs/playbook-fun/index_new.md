@@ -15,27 +15,36 @@ In this lab, you will learn how to use Ansible to manage Windows hosts using the
 Perform the following steps on Windows Target 1 in VS Code
 In the VS Code Explorer pane:
 
-1. Right Click in the explorer pane
+1. Right Click the `ansible-working` repo in the explorer pane
 
 2. Select `New File`
 
 3. Enter the name and content details below:
 
-4. Create a new file named `inventory_simple.yml` and open it in your preferred text editor.
+4. Create a new file named `inventory_groups.yml` and open it in your preferred text editor.
 
 5. Define the Windows host details in the inventory file in the following format:
 
    ```
    all:
-     hosts:
-       win-host:
-         ansible_host: <win-host-ip>
-         ansible_user: <win-user>
-         ansible_password: <win-password>
-         ansible_connection: winrm
-         ansible_winrm_server_cert_validation: ignore
+     children:
+       linux:
+         hosts:
+           ansible_controler:
+             ansible_host: <ip address provided>
+       windows:
+         children:
+            webservers:
+               hosts:
+                 windows_server1:
+                   ansible_host: <ip address provided>
+                 windows_server2:
+                   ansible_host: <ip address provided>  
+  
    ```
-   Replace `<win-host-ip>` with the IP address of the Windows host, `<win-user>` with the administrative user account name, and `<win-password>` with the password for the user account.
+   Replace `<ip address provided>` with the IP address of the Ansible host and Windows host provided to you.
+   
+   > Notice that this inventory file expects that the variable for windows host connections will be passed in by the playbook
 
    Note: If your Windows host is on a domain, you can use the `ansible_domain_username` and `ansible_domain_password` parameters instead of `ansible_user` and `ansible_password`.
 
@@ -45,6 +54,8 @@ In the VS Code Explorer pane:
 1. Right Click in the explorer pane
 1. Select `New Directory`
 1. Create a new directory named `playbook-fun`
+1. in the explorer view expand the ansible-best-practices-windows folder expand the labs/playbook-fun
+1. While holding down the ctrl key drag the files folder and drop it on the ansible-working/playbook-fun folder created in the previous step to copy the folder and its contents
 1. Right Click in the explorer pane
 1. Select 'New File'
 1. Enter `playbook.yml` as the name:
@@ -52,15 +63,48 @@ In the VS Code Explorer pane:
 
    ```
    ---
-   - name: Playbook-Fun
-     hosts: win-host
-     gather_facts: no
+   - name: Ensure IIS is installed and started 
+     hosts: webservers
+     become: yes 
+     become_method: runas
+     become_user: Administrator
+     vars:
+       ansible_connection: winrm
+       ansible_winrm_server_cert_validation: ignore
+       user: Administrator
+       pwd: JustM300
+       service_name: IIS Admin Service   
      tasks:
-     - name: Run PowerShell Command
-       win_shell: |
-         Write-Output "Hello World"
+       - name: Ensure IIS Server is present 
+         win_feature:
+           name:  Web-Server
+           state: present
+           restart: no
+           include_sub_features: yes
+           include_management_tools: yes  
+       - name: Ensure latest web files are present
+         win_copy:
+           src: files/
+           dest: c:\inetpub\wwwroot\
+           force: yes
+       - name: Ensure IIS is started
+         win_service:
+           name: "{{ service_name }}"
+           state: started
    ```
-   This playbook contains a single task that runs a PowerShell command on the Windows host to display "Hello World" in the console.
+   
+This playbook contains a 3 tasks that Make sure IIS is present, copies web files to the wwwroot folder then makes sure that the IIS Admin service is running.
+
+Update the ansible.cfg to set the new inventory_groups.yml as the default inventory file
+
+1. In VS Code on the Explorer pane open the ansible.cfg file in the root of the `ansible-working` repo
+2. update the inventory path as below:
+
+```
+[defaults]
+INVENTORY = inventory_groups.yml
+```
+Save all files
 
 ### Commit and Push Changes to GitHub
 
@@ -79,13 +123,19 @@ In the VS Code Explorer pane:
 
 ## Run the Playbook
 
+since we have specified the inventory_groups.yml inventory file as our default in ansible.cfg we dont need to specify -i inventory_groups.yml when running our playbook Instead of running `ansible-playbook -i inventory.yml` playbook.yml we can simply run `ansible-playbook playbook.yml`
+
    ```
-   ansible-playbook -i inventory.yml playbook.yml
+   ansible-playbook playbook.yml
    ```
 
    This command will run the `playbook.yml` playbook against the Windows host defined in the `inventory.yml` file.
 
-   Verify that the playbook has run successfully by checking the output in the console. You should see "Hello World" displayed in the console.
+   Verify that the playbook has run successfully by checking the output in the console.
+   
+   You can also open Chrome and navigate to http://<ip address provided for windows host>
+   
+   You should see Hello, World! because you can't have a code demo without at least one Hello, World.
 
 Congratulations! You have successfully run an Ansible playbook on a Windows host.
 

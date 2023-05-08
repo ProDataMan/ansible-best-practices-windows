@@ -35,7 +35,7 @@ Perform the following steps in VS Code on Windows Target 1
 
 In the VS Code Explorer pane:
 
-1. Right Click in the explorer pane
+1. Right Click on the `ansible-working` repo in the explorer pane
 1. Select `New File`
 1. Name the new file 'inventory_vars.yml'
 1. Paste the code below into the file
@@ -45,21 +45,24 @@ Create an inventory file with the following content:
 
 ```yml
 all:
-  hosts:
-    webserver1:
-      ansible_host: <IP or hostname of the IIS server>:
-      ansible_connection: winrm
-      ansible_winrm_transport: ntlm
-      ansible_winrm_server_cert_validation: ignore
-      ansible_user: <username with administrative privileges>
-      ansible_password: <password for the username>
-    webserver2:    
-      ansible_host: <IP or hostname of the IIS server>:
-      ansible_connection: winrm
-      ansible_winrm_transport: ntlm
-      ansible_winrm_server_cert_validation: ignore
-      ansible_user: <username with administrative privileges>
-      ansible_password: <password for the username>
+  children:
+    webservers:
+      hosts:
+        webserver1:
+          ansible_host: <IP or hostname of the IIS server>
+          ansible_host: <IP or hostname of the IIS server>:
+          ansible_connection: winrm
+          ansible_winrm_transport: ntlm
+          ansible_winrm_server_cert_validation: ignore
+          ansible_user: <username with administrative privileges>
+          ansible_password: <password for the username>
+        webserver2:    
+          ansible_host: <IP or hostname of the IIS server>
+          ansible_connection: winrm
+          ansible_winrm_transport: ntlm
+          ansible_winrm_server_cert_validation: ignore
+          ansible_user: <username with administrative privileges>
+          ansible_password: <password for the username>
 
 ```
 Replace `<IP or hostname of the IIS server>` with the IP address or hostname of your IIS server, and replace `<username with administrative privileges>` and `<password for the username>` with the username and password of an account with administrative privileges on the IIS server.
@@ -71,26 +74,38 @@ update inventory_vars.yml file with the following format for the number of serve
 
 ```yml
 all:
-  hosts:
-    webserver1:
-      ansible_host: <IP or hostname of the IIS server>:
-    webserver2:
-      ansible_host: <IP or hostname of the IIS server>:
-    webserver3:
-      ansible_host: <IP or hostname of the IIS server>:
-    webserver4:
-      ansible_host: <IP or hostname of the IIS server>:
-    webserver5:
-      ansible_host: <IP or hostname of the IIS server>:    
-  vars:
-    ansible_connection: winrm
-    ansible_winrm_transport: ntlm
-    ansible_winrm_server_cert_validation: ignore
-    ansible_user: <username with administrative privileges>
-    ansible_password: <password for the username>
+  children:
+    webservers:
+      hosts:
+        webserver1:
+          ansible_host: <IP or hostname of the IIS server>
+        webserver2:
+          ansible_host: <IP or hostname of the IIS server>
+        webserver3:
+          ansible_host: <IP or hostname of the IIS server>
+        webserver4:
+          ansible_host: <IP or hostname of the IIS server>
+        webserver5:
+          ansible_host: <IP or hostname of the IIS server>    
+    vars:
+      ansible_connection: winrm
+      ansible_winrm_transport: ntlm
+      ansible_winrm_server_cert_validation: ignore
+      ansible_user: <username with administrative privileges>
+      ansible_password: <password for the username>
 ```
 
 > Notice that by moving all repeaded elements into the vars: section we can reduce duplication when create multiple host entries
+
+Update the ansible.cfg to set the new inventory_vars.yml as the default inventory file
+
+1. In VS Code on the Explorer pane open the ansible.cfg file in the root of the `ansible-working` repo
+2. update the inventory path as below:
+
+```
+[defaults]
+INVENTORY = inventory_vars.yml
+```
 
 ### Commit and Push Changes to GitHub
 
@@ -111,20 +126,21 @@ all:
 To run ad-hoc commands on the IIS server, use the following command:
 
 ```bash
-ansible all -i <path to inventory file> -m <module name> -a "<module arguments>"
+ansible webservers -i <path to inventory file> -m <module name> -a "<module arguments>"
 ```
 
 Replace `<path to inventory file>` with the path to your inventory file, `<module name>` with the name of the Ansible module you want to use (e.g. `win_command`), and `<module arguments>` with the arguments for the module.
 
-For example, to run the `win_command` module to execute the `dir` command on the IIS server, use the following command:
+For example, to run the `win_command` module to execute the `powershell Get-Date` command on the IIS server, use the following command:
 
 ```bash
-ansible all -i inventory.yml -m win_command -a "cmd='dir'"
+ansible webserver1 -m win_command -a "powershell Get-Date"
 ```
+
 Or `win_feature` to install the `web-server` feature (IIS)
 
 ```
-ansible all - inventory.yml -m win_feature -a "Web-Server"
+ansible webservers -m win_feature -a "name=Web-Server state=present"
 ```
 ### Running Playbooks
 
@@ -172,7 +188,7 @@ In the VS Code Explorer pane:
 4. Execute the playbook.
 
 ```bash
-ansible-playbook install_iis.yml -i inventory_vars.yml
+ansible-playbook install_iis.yml
 ```
 
 This will install IIS on the target server.

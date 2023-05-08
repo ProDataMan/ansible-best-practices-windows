@@ -64,3 +64,5 @@ Continue to do the following steps inside of Window Target 1 RDP Session
   8. In the Visual Studio Code dialog click the `Add to Workspace` button to open the repository in VS Code
   9. In the left Toolbar click the Explorer button
 
+## Initial Setup Complete
+At this point you should be connected to your Winodws Server with the Classfiles repo (ansible-best-practices-windows) and the Working repo (ansible-working) cloned.  You should be able to see both repos in Visual Studio Code in both the Explorer pane as well as the Sorce Control pane.

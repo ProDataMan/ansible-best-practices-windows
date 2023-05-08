@@ -15,7 +15,7 @@ Perform the following steps on Windows Target 1 in VS Code
 ---
 ansible_user: Administrator
 ansible_password: JustM300
-db_user: dbuser
+db_username: dbuser
 db_password: pass1234
 ```
 
