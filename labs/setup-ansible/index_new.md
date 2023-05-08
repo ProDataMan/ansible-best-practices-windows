@@ -23,7 +23,7 @@ sudo apt-get update
 Install Python
 
 ```
-sudo apt-get install -y python3-pip
+DEBIAN_FRONTEND=noninteractive sudo apt-get install -y python3-pip
 ```
 
 Install Ansible using pip3
