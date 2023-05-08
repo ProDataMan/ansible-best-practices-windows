@@ -12,17 +12,49 @@ Before starting this lab, you should have the following:
 - Visual Studio Code installed on your Windows host.
 - A GitHub account.
 
-## Step 1: Creating a Windows User with Permissions
+## Step 1: Set Default connection account for Ansible
 
-The first step is to create a Windows user with permissions to install services. You will use Ansible to automate this task.
+Connect Ansible with the `ansible` user account we will create in the next step.
 
-1. Create a new Ansible role named `create-user` using the following command:
+1. Open the `ansible.cfg` file on in the ansible-working folder in VS Code and edit the file to appear as below:
 
+   ```
+   [defaults]
+   INVENTORY = inventory_groups.yml
+   remote_user = ansible
+   ```
+
+   This tells Ansible to connect to the remote Windows machine using the `ansible` user account.
+
+2. Save the `ansible.cfg` file and close it.
+
+## Step 2: Create 4 roles
+1. Create the `create-user` role
    ```
    ansible-galaxy role init create-user
    ```
+2. Create a new Ansible role named `install-iis` using the following command:
 
-2. Open the `tasks/main.yml` file in the `create-user` role and add the following code:
+   ```
+   ansible-galaxy role init install-iis
+   ```
+3. Create a new Ansible role named `create-web-config` using the following command:
+
+   ```
+   ansible-galaxy role init create-web-config
+   ```
+4. Create a new Ansible role named `copy-web-files` using the following command:
+
+   ```
+   ansible-galaxy role init copy-web-files
+   ```
+5. Perform a `git push` to sync the new roles with the `ansible-working` repo so that we can edit the files
+
+## Step 2: Creating a Windows User with Permissions
+
+The first step is to create a Windows user with permissions to install services. You will use Ansible to automate this task.
+
+1. Open the `tasks/main.yml` file in the `create-user` role and add the following code:
 
    ```
    - name: Grant user privileges
@@ -44,33 +76,11 @@ The first step is to create a Windows user with permissions to install services.
 
    This code creates a new user named `ansible` with the password `Password123`, adds the user to the `Administrators` group, grants the user remote desktop access, and grants the user administrator privileges.
 
-3. Save the `main.yml` file and close it.
-
-## Step 2: Connecting Ansible with the User Account
-
-The next step is to connect Ansible with the `ansible` user account you just created.
-
-1. Open the `ansible.cfg` file on your Ansible Control host and add the following lines:
-
-   ```
-   [defaults]
-   INVENTORY = inventory_groups.yml
-   remote_user = ansible
-   ```
-
-   This tells Ansible to connect to the remote Windows machine using the `ansible` user account.
-
-2. Save the `ansible.cfg` file and close it.
+2. Save the `main.yml` file and close it.
 
 ## Step 3: Installing IIS
 
 The next step is to install IIS on the remote Windows machine using Ansible.
-
-1. Create a new Ansible role named `install-iis` using the following command:
-
-   ```
-   ansible-galaxy role init install-iis
-   ```
 
 2. Open the `tasks/main.yml` file in the `install-iis` role and add the following code:
 
@@ -90,15 +100,9 @@ The next step is to install IIS on the remote Windows machine using Ansible.
 
 The next step is to create a Web.config file using a template.
 
-1. Create a new Ansible role named `create-web-config` using the following command:
+1. In the `templates` folder inside the `create-web-config` role folder.
 
-   ```
-   ansible-galaxy role init create-web-config
-   ```
-
-2. In the `templates` folder inside the `create-web-config` role folder.
-
-3. Create a new file named `web.config.j2` and add the following code:
+2. Create a new file named `web.config.j2` and add the following code:
 
    ```
    <?xml version="1.0" encoding="UTF-8"?>
@@ -111,7 +115,7 @@ The next step is to create a Web.config file using a template.
 
    This is a sample Web.config file that will be used to configure IIS.
 
-4. Open the `tasks/main.yml` file in the `create-web-config` role and add the following code:
+3. Open the `tasks/main.yml` file in the `create-web-config` role and add the following code:
 
    ```
    - name: Create web.config file
@@ -122,19 +126,13 @@ The next step is to create a Web.config file using a template.
 
    This code creates a new `web.config` file using the `web.config.j2` template and copies it to the `C:\inetpub\wwwroot` folder. The `{{ python_path }}` variable is replaced with the path to Python 3.7.
 
-5. Save the `main.yml` and `web.config.j2` files and close them.
+4. Save the `main.yml` and `web.config.j2` files and close them.
 
 ## Step 5: Copying Web Files to the `c:\inetpub\wwwroot` Folder
 
 The next step is to copy the web files to the `c:\inetpub\wwwroot` folder.
 
-1. Create a new Ansible role named `copy-web-files` using the following command:
-
-   ```
-   ansible-galaxy role init copy-web-files
-   ```
-
-2. Open the `tasks/main.yml` file in the `copy-web-files` role and add the following code:
+1. Open the `tasks/main.yml` file in the `copy-web-files` role and add the following code:
 
    ```
    - name: Copy web files
@@ -145,7 +143,7 @@ The next step is to copy the web files to the `c:\inetpub\wwwroot` folder.
 
    This code copies the contents of the `./files` folder to the `C:\inetpub\wwwroot` folder on the remote Windows machine.
 
-3. Save the `main.yml` file and close it.
+2. Save the `main.yml` file and close it.
 
 ## Step 6: Combining the Roles in an Ansible Playbook
 
