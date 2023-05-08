@@ -39,13 +39,18 @@ Now it's time to create the Ansible playbook that will use the template to confi
 7. Copy and paste the following code into `configure.yml`:
 
 ```
-- name: Configure web.config
+- name: Configure web.config for SQL connection string
   hosts: all
+  vars:
+    ip_address: 10.0.0.1
+    database_name: mydatabase
+    db_username: sqluser
+    db_password: Pa$$w0rd
   tasks:
     - name: Create web.config file
       template:
         src: templates/web.config.j2
-        dest: C:\inetpub\wwwroot\web.config
+        dest: c:/inetpub/wwwroot/web.config
 ```
 
 This playbook will use the `template` module to generate the web.config file from a Jinja2 template.
@@ -64,57 +69,20 @@ Next, you need to create the Jinja2 template that will be used to generate the w
 8. Copy and paste the following code into `web.config.j2`:
 
 ```
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <system.webServer>
-        <rewrite>
-            <rules>
-                {% if redirect_to_www %}
-                <rule name="Redirect to www" stopProcessing="true">
-                    <match url=".*" />
-                    <conditions>
-                        <add input="{HTTP_HOST}" pattern="^(?!www)(.*)$" />
-                    </conditions>
-                    <action type="Redirect" url="http://www.{HTTP_HOST}{REQUEST_URI}" redirectType="Permanent" />
-                </rule>
-                {% endif %}
-                {% if redirect_to_https %}
-                <rule name="Redirect to HTTPS" stopProcessing="true">
-                    <match url=".*" />
-                    <conditions>
-                        <add input="{HTTPS}" pattern="off" />
-                    </conditions>
-                    <action type="Redirect" url="https://{HTTP_HOST}{REQUEST_URI}" redirectType="Permanent" />
-                </rule>
-                {% endif %}
-                {% if enable_compression %}
-                <rule name="Compress static files" enabled="true">
-                    <match url=".*\.(js|css|html|htm|png|jpg|jpeg|gif|bmp|ico|xml|txt|svg|json)$" />
-                    <action type="Rewrite" url="gzip.aspx?url={R:0}" />
-                    <conditions>
-                        <add input="{HTTP_ACCEPT_ENCODING}" pattern="gzip" />
-                        <add input="{QUERY_STRING}" pattern="no-compression" negate="true" />
-                    </conditions>
-                </rule>
-                {% endif %}
-            </rules>
-        </rewrite>
-        <httpErrors errorMode="Detailed" />
-        <security>
-            <requestFiltering allowDoubleEscaping="true" />
-            <ipSecurity allowUnlisted="false">
-                <add ipAddress="127.0.0.1" allowed="true" />
-            </ipSecurity>
-        </security>
-    </system.webServer>
+  <appSettings>
+    <add key="sqlConnectionString" value="Server={{ ip_address }};Database={{ database_name }};User ID={{ db_username }};Password={{ db_password }};"/>
+  </appSettings>
 </configuration>
 ```
 
-This template includes several configuration options that you can customize for your specific needs, such as:
+This template includes a configuration option to update the database connection string including:
 
-- Redirecting HTTP requests to HTTPS.
-- Redirecting requests to the www subdomain.
-- Enabling static file compression.
+- Server ip address
+- Database name
+- Database user name
+- Database password
 
 ## Step 4: Run the playbook
 
