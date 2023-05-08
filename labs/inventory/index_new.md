@@ -43,15 +43,14 @@ all:
     webservers:
       hosts:
         webserver1:
-          ansible_host: <IP or hostname of the IIS server>
-          ansible_host: <IP or hostname of the IIS server>:
+          ansible_host: <IP or hostname of the Windows server>
           ansible_connection: winrm
           ansible_winrm_transport: ntlm
           ansible_winrm_server_cert_validation: ignore
           ansible_user: <username with administrative privileges>
           ansible_password: <password for the username>
         webserver2:    
-          ansible_host: <IP or hostname of the IIS server>
+          ansible_host: <If you have one, IP or hostname of the second Windows server>
           ansible_connection: winrm
           ansible_winrm_transport: ntlm
           ansible_winrm_server_cert_validation: ignore
@@ -59,12 +58,12 @@ all:
           ansible_password: <password for the username>
 
 ```
-Replace `<IP or hostname of the IIS server>` with the IP address or hostname of your IIS server, and replace `<username with administrative privileges>` and `<password for the username>` with the username and password of an account with administrative privileges on the IIS server.
+Replace `<IP or hostname of the Windows server>` with the IP address or hostname of your Windows server, and replace `<username with administrative privileges>` and `<password for the username>` with the username and password of an account with administrative privileges on the Windows server.
 
-This format is great for a single host but imagine you have 10s or 100s of host repeating this information could get tiresome
+This format is great for a single host, but imagine you have 10s or 100s of hosts, repeating this information could get tiresome.
 Try using variables instead:
 
-update inventory_vars.yml file with the following format for the number of servers you have:
+Here is an example of how we can use the same variables for many servers. 
 
 ```yml
 all:
@@ -72,15 +71,15 @@ all:
     webservers:
       hosts:
         webserver1:
-          ansible_host: <IP or hostname of the IIS server>
+          ansible_host: <IP or hostname of server 1>
         webserver2:
-          ansible_host: <IP or hostname of the IIS server>
+          ansible_host: <IP or hostname of server 2>
         webserver3:
-          ansible_host: <IP or hostname of the IIS server>
+          ansible_host: <IP or hostname of server 3>
         webserver4:
-          ansible_host: <IP or hostname of the IIS server>
+          ansible_host: <IP or hostname of server 4>
         webserver5:
-          ansible_host: <IP or hostname of the IIS server>    
+          ansible_host: <IP or hostname of server 5>    
     vars:
       ansible_connection: winrm
       ansible_winrm_transport: ntlm
@@ -89,11 +88,28 @@ all:
       ansible_password: <password for the username>
 ```
 
-> Notice that by moving all repeaded elements into the vars: section we can reduce duplication when create multiple host entries
+> Notice that by moving all repeaded elements into the `vars:` section we can reduce duplication when creating multiple host entries
 
-Update the ansible.cfg to set the new inventory_vars.yml as the default inventory file
+Update the `inventory_vars.yml` with this: 
 
-1. In VS Code on the Explorer pane open the ansible.cfg file in the root of the `ansible-working` repo
+```yaml
+all:
+  children:
+    webservers:
+      hosts:
+        webserver1:
+          ansible_host: <IP or hostname of Windows server> 
+  vars:
+    ansible_connection: winrm
+    ansible_winrm_transport: ntlm
+    ansible_winrm_server_cert_validation: ignore
+    ansible_user: <username with administrative privileges>
+    ansible_password: <password for the username>
+```
+
+Update the `ansible.cfg` to set the new `inventory_vars.yml` as the default inventory file
+
+1. In VS Code on the Explorer pane open the `ansible.cfg` file in the root of the `ansible-working` repo
 2. update the inventory path as below:
 
 ```
@@ -131,14 +147,14 @@ For example, to run the `win_command` module to execute the `powershell Get-Date
 ansible webserver1 -m win_command -a "powershell Get-Date"
 ```
 
-Or `win_feature` to install the `web-server` feature (IIS)
+Or `win_command` to execute the `whoami` command on the Windows server.
 
 ```
-ansible webservers -m win_feature -a "name=Web-Server state=present"
+ansible webservers -m win_command -a "whoami"
 ```
 ### Running Playbooks
 
-To run a playbook on the IIS server, create a YAML file with the playbook content, and run the following command:
+To run a playbook, create a YAML file with the playbook content, and run the following command:
 
 ```bash
 ansible-playbook <path to playbook YAML file> -i <path to inventory file>
