@@ -126,7 +126,7 @@ INVENTORY = inventory_vars.yml
 To run ad-hoc commands on the IIS server, use the following command:
 
 ```bash
-ansible all -i <path to inventory file> -m <module name> -a "<module arguments>"
+ansible webservers -i <path to inventory file> -m <module name> -a "<module arguments>"
 ```
 
 Replace `<path to inventory file>` with the path to your inventory file, `<module name>` with the name of the Ansible module you want to use (e.g. `win_command`), and `<module arguments>` with the arguments for the module.
@@ -134,12 +134,12 @@ Replace `<path to inventory file>` with the path to your inventory file, `<modul
 For example, to run the `win_command` module to execute the `dir` command on the IIS server, use the following command:
 
 ```bash
-ansible all -i inventory.yml -m win_command -a "cmd='dir'"
+ansible webservers -i inventory_vars.yml -m win_command -a "cmd='dir'"
 ```
 Or `win_feature` to install the `web-server` feature (IIS)
 
 ```
-ansible all - inventory.yml -m win_feature -a "Web-Server"
+ansible webservers - inventory_vars.yml -m win_feature -a "Web-Server"
 ```
 ### Running Playbooks
 
