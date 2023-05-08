@@ -29,7 +29,7 @@ You should see a success message if the Windows host is reachable.
 
 This command will retrieve various information about the Windows host, including hardware and software details, network settings, and more.
 
-The following commands can be used to download, install, and uninstall the `7-Zip` package. After each command, confirm on the Windows server it was successful.
+The following commands can be used to download and install the `7-Zip` package. After each command, confirm on the Windows server it was successful.
 
 3. Run the following ad-hoc command to download the 7zip MSI package on the Windows host:
 
@@ -41,10 +41,4 @@ The following commands can be used to download, install, and uninstall the `7-Zi
 
 ```bash
 ansible webserver1 -m win_package -a "path=C:\gitrepos\7z.msi state=present"
-```
-
-5. Run the following ad-hoc command to uninstall a package from the Windows host:
-
-```bash
-ansible webserver1 -m win_package -a "product_id=7-Zip state=absent"
 ```
