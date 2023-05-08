@@ -50,9 +50,10 @@ Connect Ansible with the `ansible` user account we will create in the next step.
    ```
 5. Perform a `git push` to sync the new roles with the `ansible-working` repo so that we can edit the files
 
-## Step 2: Creating a Windows User with Permissions
+## Step 3: Creating a Windows User with Permissions
 
 The first step is to create a Windows user with permissions to install services. You will use Ansible to automate this task.
+User the explorer pane in VS Code to navigate to the appropriate folders and edit files
 
 1. Open the `tasks/main.yml` file in the `create-user` role and add the following code:
 
@@ -78,9 +79,10 @@ The first step is to create a Windows user with permissions to install services.
 
 2. Save the `main.yml` file and close it.
 
-## Step 3: Installing IIS
+## Step 4: Installing IIS
 
 The next step is to install IIS on the remote Windows machine using Ansible.
+User the explorer pane in VS Code to navigate to the appropriate folders and edit files
 
 2. Open the `tasks/main.yml` file in the `install-iis` role and add the following code:
 
@@ -96,9 +98,10 @@ The next step is to install IIS on the remote Windows machine using Ansible.
 
 3. Save the `main.yml` file and close it.
 
-## Step 4: Creating a Web.config File Using a Template
+## Step 5: Creating a Web.config File Using a Template
 
 The next step is to create a Web.config file using a template.
+User the explorer pane in VS Code to navigate to the appropriate folders and edit files
 
 1. In the `templates` folder inside the `create-web-config` role folder.
 
@@ -128,9 +131,10 @@ The next step is to create a Web.config file using a template.
 
 4. Save the `main.yml` and `web.config.j2` files and close them.
 
-## Step 5: Copying Web Files to the `c:\inetpub\wwwroot` Folder
+## Step 6: Copying Web Files to the `c:\inetpub\wwwroot` Folder
 
 The next step is to copy the web files to the `c:\inetpub\wwwroot` folder.
+User the explorer pane in VS Code to navigate to the appropriate folders and edit files
 
 1. Open the `tasks/main.yml` file in the `copy-web-files` role and add the following code:
 
@@ -145,9 +149,10 @@ The next step is to copy the web files to the `c:\inetpub\wwwroot` folder.
 
 2. Save the `main.yml` file and close it.
 
-## Step 6: Combining the Roles in an Ansible Playbook
+## Step 7: Combining the Roles in an Ansible Playbook
 
 The final step is to combine the roles in an Ansible playbook.
+User the explorer pane in VS Code to navigate to the appropriate folders and edit files
 
 1. Create a new file named `roles_playbook.yml` in your Ansible Control host in the ansible-working folder and add the following code:
 
@@ -179,43 +184,22 @@ The final step is to combine the roles in an Ansible playbook.
 
 2. Save the `roles_playbook.yml` file and close it.
 
-## Step 7: Editing Files Using Visual Studio Code
+## Step 8: Save and Push files to the `ansible-working` repo
 
-To edit files using Visual Studio Code, follow these steps:
+1. In the sidebar, click on the "Source Control" icon (it looks like a branch).
+2. In the File menu select Save All
+3. In the "Source Control" pane, review the changes you made to the file.
+4. Enter a commit message that describes the changes you made.
+5. Click the checkmark icon to commit the changes.
+6. Click on the "..." menu in the "Source Control" pane, and select "Push" to push the changes to GitHub.
 
-1. Open Visual Studio Code.
+## Step 9: Update the Ansible Control Host
 
-2. Open the folder containing the roles and playbook by clicking on `File > Open Folder` and selecting the folder.
+1. Return to the connection to your Ansible control host in PuTTY on Windows Target 1.
+2. Navigate to the directory where you cloned repository.
+3. Run `git pull` to update the repository on the control host.
 
-3. Open the file you want to edit by double-clicking on it in the `Explorer` pane.
-
-4. Make your changes to the file.
-
-5. Save the file by clicking on `File > Save` or using the keyboard shortcut `Ctrl + S`.
-
-6. Stage the changes by clicking on the `Source Control` icon in the left-hand menu, selecting the file, and clicking on the `+` icon.
-
-7. Commit the changes by entering a commit message and clicking on the `✓` icon.
-
-8. Push the changes to the `ansible-working` GitHub repository by clicking on the `...` icon in the `Source Control` pane and selecting `Push`.
-
-## Step 8: Pulling the Changes on the Ansible Host
-
-To pull the changes on the Ansible host, follow these steps:
-
-1. Open PuTTY and connect to the Ansible host using SSH.
-
-2. Navigate to the folder where the roles and playbook are stored.
-
-3. Run the following command to pull the changes from the `ansible-working` GitHub repository:
-
-   ```
-   git pull
-   ```
-
-   This command will download the latest changes from the `ansible-working` repository.
-
-## Step 9: Executing the Ansible Playbook
+## Step 10: Executing the Ansible Playbook
 
 To execute the Ansible playbook, follow these steps:
 
