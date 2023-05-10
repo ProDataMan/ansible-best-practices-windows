@@ -13,8 +13,9 @@ Before starting this lab, you should have the following:
 - A GitHub account.
 
 ## Step 1: Set Default connection account for Ansible
+Perform the followig steps on the Windows Host in VS Code
 
-Connect Ansible with the `ansible` user account we will create in the next step.
+Configure Ansible to connect with the `ansible` user account we will create in a later next step.
 
 1. Open the `ansible.cfg` file on in the ansible-working folder in VS Code and edit the file to appear as below:
 
@@ -50,7 +51,21 @@ Connect Ansible with the `ansible` user account we will create in the next step.
    ```
 5. Perform a `git push` to sync the new roles with the `ansible-working` repo so that we can edit the files
 
-## Step 3: Creating a Windows User with Permissions
+## Step 3: Commit and Push Changes to GitHub
+
+1. In the sidebar, click on the "Source Control" icon (it looks like a branch).
+2. In the File menu select Save All
+3. In the "Source Control" pane, review the changes you made to the file.
+4. Enter a commit message that describes the changes you made.
+5. Click the checkmark icon to commit the changes.
+6. Click on the "..." menu in the "Source Control" pane, and select "Push" to push the changes to GitHub.
+
+## Step 4: Update the Ansible-working repo on the Windows Host 
+
+1. In VS Code on the Source Control Pane
+2. Perform a Pull or a Sync of the ansible-working so that we can edit the new roles
+
+## Step 5: Creating a Windows User with Permissions
 
 The first step is to create a Windows user with permissions to install services. You will use Ansible to automate this task.
 User the explorer pane in VS Code to navigate to the appropriate folders and edit files
@@ -79,7 +94,7 @@ User the explorer pane in VS Code to navigate to the appropriate folders and edi
 
 2. Save the `main.yml` file and close it.
 
-## Step 4: Installing IIS
+## Step 6: Installing IIS
 
 The next step is to install IIS on the remote Windows machine using Ansible.
 User the explorer pane in VS Code to navigate to the appropriate folders and edit files
@@ -98,7 +113,7 @@ User the explorer pane in VS Code to navigate to the appropriate folders and edi
 
 3. Save the `main.yml` file and close it.
 
-## Step 5: Creating a Web.config File Using a Template
+## Step 7: Creating a Web.config File Using a Template
 
 The next step is to create a Web.config file using a template.
 User the explorer pane in VS Code to navigate to the appropriate folders and edit files
@@ -131,7 +146,7 @@ User the explorer pane in VS Code to navigate to the appropriate folders and edi
 
 4. Save the `main.yml` and `web.config.j2` files and close them.
 
-## Step 6: Copying Web Files to the `c:\inetpub\wwwroot` Folder
+## Step 8: Copying Web Files to the `c:\inetpub\wwwroot` Folder
 
 The next step is to copy the web files to the `c:\inetpub\wwwroot` folder.
 User the explorer pane in VS Code to navigate to the appropriate folders and edit files
@@ -149,7 +164,7 @@ User the explorer pane in VS Code to navigate to the appropriate folders and edi
 
 2. Save the `main.yml` file and close it.
 
-## Step 7: Combining the Roles in an Ansible Playbook
+## Step 9: Combining the Roles in an Ansible Playbook
 
 The final step is to combine the roles in an Ansible playbook.
 User the explorer pane in VS Code to navigate to the appropriate folders and edit files
@@ -184,7 +199,7 @@ User the explorer pane in VS Code to navigate to the appropriate folders and edi
 
 2. Save the `roles_playbook.yml` file and close it.
 
-## Step 8: Save and Push files to the `ansible-working` repo
+## Step 10: Save and Push files to the `ansible-working` repo
 
 1. In the sidebar, click on the "Source Control" icon (it looks like a branch).
 2. In the File menu select Save All
@@ -193,13 +208,13 @@ User the explorer pane in VS Code to navigate to the appropriate folders and edi
 5. Click the checkmark icon to commit the changes.
 6. Click on the "..." menu in the "Source Control" pane, and select "Push" to push the changes to GitHub.
 
-## Step 9: Update the Ansible Control Host
+## Step 11: Update the Ansible Control Host
 
 1. Return to the connection to your Ansible control host in PuTTY on Windows Target 1.
 2. Navigate to the directory where you cloned repository.
 3. Run `git pull` to update the repository on the control host.
 
-## Step 10: Executing the Ansible Playbook
+## Step 12: Executing the Ansible Playbook
 
 To execute the Ansible playbook, follow these steps:
 
