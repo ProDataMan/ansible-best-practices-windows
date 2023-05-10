@@ -34,15 +34,16 @@ ansible-vault encrypt vault/secrets.yml
 ```
 
 6. When prompted, enter a password to use for encrypting the file.
-7. Use the following command to push changes to your `ansible-working` repository to keep it in sync
+7. Create a personal access token to use for authentication to your repo from the ansible host. Intruction here: https://github.com/ProDataMan/ansible-best-practices-windows/labs/access_lab/GitHub_Personal_Access_Token.md
+8. Use the following command to push changes to your `ansible-working` repository to keep it in sync
 ```
 git add .
 git commit -m "encrypt secrets.yml"
 git push
 ```
-8. When prompted enter your git user name and when prompted for password paste in the personal access token created during setup.
+9. When prompted enter your git user name and when prompted for password paste in the personal access token in an earlier step.
 
-9. Create a new playbook named "deploy_website.yml" in the "ansible-working" repository and add the following content:
+10. Create a new playbook named "deploy_website.yml" in the "ansible-working" repository and add the following content:
 
 ```
 ---
@@ -73,16 +74,16 @@ git push
       become: true
 ```
 
-10. Save the changes to the playbook and commit them to the "ansible-working" repository using the Source Control pane in Visual Studio Code.
-11. Push the changes to the "ansible-working" repository on GitHub using the Source Control pane in Visual Studio Code.
-12. Switch to the Ansible control host and navigate to the directory where the "ansible-working" repository was cloned.
-13. Use the "git pull" command to update the cloned repository with the latest changes.
-14. Run the "deploy_website.yml" playbook against the Windows host using the following command:
+11. Save the changes to the playbook and commit them to the "ansible-working" repository using the Source Control pane in Visual Studio Code.
+12. Push the changes to the "ansible-working" repository on GitHub using the Source Control pane in Visual Studio Code.
+13. Switch to the Ansible control host and navigate to the directory where the "ansible-working" repository was cloned.
+14. Use the "git pull" command to update the cloned repository with the latest changes.
+15. Run the "deploy_website.yml" playbook against the Windows host using the following command:
 
 ```
 ansible-playbook deploy_website.yml --ask-vault-pass
 ```
 
-15. When prompted, enter the password used to encrypt the "secrets.yml" file.
+16. When prompted, enter the password used to encrypt the "secrets.yml" file.
 
-16. Verify that the website is deployed on the Windows host.
+17. Verify that the website is deployed on the Windows host.
