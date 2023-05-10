@@ -74,16 +74,19 @@ User the explorer pane in VS Code to navigate to the appropriate folders and edi
 1. Open the `tasks/main.yml` file in the `create-user` role and add the following code:
 
    ```
-   - name: Grant user privileges
-     win_command: 'net localgroup "Administrators" ansible /add'
+   - name: Create ansible user
+     win_user:
+       name: ansible
+       password: "{{ vault_ansible_password }}" # replace with your own encrypted password
+       state: present
+       groups: Administrators
+     become: yes
+
+   - name: Check if user is already a member of the group
+     win_command: 'net localgroup "Administrators" ansible'
      become: yes
      ignore_errors: yes
      register: result
-
-   - name: Check if user is already a member of the group
-     debug:
-       msg: "User ansible is already a member of the Administrators group"
-     when: "'The specified account name is already a member of the group.' in result.stderr"
 
    - name: Add user to the group if not already a member
      win_command: 'net localgroup "Administrators" ansible /add'
