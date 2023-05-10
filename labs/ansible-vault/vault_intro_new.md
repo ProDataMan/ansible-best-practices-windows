@@ -34,7 +34,7 @@ ansible-vault encrypt vault/secrets.yml
 ```
 
 6. When prompted, enter a password to use for encrypting the file.
-7. Create a personal access token to use for authentication to your repo from the ansible host. Intruction here: https://github.com/ProDataMan/ansible-best-practices-windows/labs/access_lab/GitHub_Personal_Access_Token.md
+7. Create a personal access token to use for authentication to your repo from the ansible host. Intruction here: [https://github.com/ProDataMan/ansible-best-practices-windows/labs/access_lab/GitHub_Personal_Access_Token.md](https://github.com/ProDataMan/ansible-best-practices-windows/blob/main/labs/access_lab/GitHub_Personal_Access_Token.md)
 8. Use the following command to push changes to your `ansible-working` repository to keep it in sync
 ```
 git add .
