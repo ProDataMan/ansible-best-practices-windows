@@ -19,9 +19,13 @@ db_password: pass1234
 ```
 4. In the "vault" directory, create a new file named "win_connect.yml" and add the following content:
 ```
+#windows connection details
 ansible_connection: winrm
 ansible_winrm_transport: ntlm
 ansible_winrm_server_cert_validation: ignore
+#Database details
+ip_address: 192.168.2.2
+database_name: Adventrueworks
 ```
 5. Encrypt the "secrets.yml" file using Ansible Vault with the following command:
 
@@ -60,10 +64,6 @@ When prompted, enter a password to use for encrypting the file.
         src: templates/web.config.j2
         dest: C:\inetpub\wwwroot\web.config
       become: true
-    - name: Ensure IIS is started
-      win_service:
-        name: "{{ service_name }}"
-        state: started
 ```
 
 7. Save the changes to the playbook and commit them to the "ansible-working" repository using the Source Control pane in Visual Studio Code.
