@@ -56,7 +56,7 @@ When prompted, enter a password to use for encrypting the file.
         include_management_tools: yes  
     - name: Ensure latest web files are present
       win_copy:
-        src: files/
+        src: playbook-fun/files/
         dest: c:\inetpub\wwwroot\
         force: yes
     - name: Configure website
