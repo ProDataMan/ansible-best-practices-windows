@@ -8,9 +8,9 @@ You should definitely keep your playbooks under version control. In this lab weâ
 
 ## Setup Git Repository
 
-For this lab we will use a playbook stored in this Git repository
+For this lab we will use a playbook stored in your  `ansible-working` Git repository
 
-[https://github.com/jruels/workshop-examples](https://github.com/jruels/workshop-examples)
+[https://github.com/<your account/andible-working](https://github.com/<your account>/ansible-working)
 
 A playbook to manage users, and groups. The playbook is `create_user.yml`
 
