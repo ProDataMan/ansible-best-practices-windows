@@ -41,10 +41,7 @@ When prompted, enter a password to use for encrypting the file.
   become_user: Administrator
   vars_files:
     - vault/secrets.yml
-  vars:
-    ansible_connection: winrm
-    ansible_winrm_server_cert_validation: ignore
-    service_name: IIS Admin Service   
+    - vault/win_connect.yml
   tasks:
     - name: Ensure IIS Server is present 
       win_feature:
@@ -62,9 +59,6 @@ When prompted, enter a password to use for encrypting the file.
       win_template:
         src: templates/web.config.j2
         dest: C:\inetpub\wwwroot\web.config
-      vars:
-        db_username: "{{ db_username }}"
-        db_password: "{{ db_password }}"
       become: true
     - name: Ensure IIS is started
       win_service:
