@@ -33,9 +33,16 @@ database_name: Adventrueworks
 ansible-vault encrypt vault/secrets.yml
 ```
 
-When prompted, enter a password to use for encrypting the file.
+6. When prompted, enter a password to use for encrypting the file.
+7. Use the following command to push changes to your `ansible-working` repository to keep it in sync
+```
+git add .
+git commit -m "encrypt secrets.yml"
+git push
+```
+8. When prompted enter your git user name and when prompted for password paste in the personal access token created during setup.
 
-6. Create a new playbook named "deploy_website.yml" in the "ansible-working" repository and add the following content:
+9. Create a new playbook named "deploy_website.yml" in the "ansible-working" repository and add the following content:
 
 ```
 ---
@@ -66,16 +73,16 @@ When prompted, enter a password to use for encrypting the file.
       become: true
 ```
 
-7. Save the changes to the playbook and commit them to the "ansible-working" repository using the Source Control pane in Visual Studio Code.
-8. Push the changes to the "ansible-working" repository on GitHub using the Source Control pane in Visual Studio Code.
-9. Switch to the Ansible control host and navigate to the directory where the "ansible-working" repository was cloned.
-10. Use the "git pull" command to update the cloned repository with the latest changes.
-11. Run the "deploy_website.yml" playbook against the Windows host using the following command:
+10. Save the changes to the playbook and commit them to the "ansible-working" repository using the Source Control pane in Visual Studio Code.
+11. Push the changes to the "ansible-working" repository on GitHub using the Source Control pane in Visual Studio Code.
+12. Switch to the Ansible control host and navigate to the directory where the "ansible-working" repository was cloned.
+13. Use the "git pull" command to update the cloned repository with the latest changes.
+14. Run the "deploy_website.yml" playbook against the Windows host using the following command:
 
 ```
 ansible-playbook deploy_website.yml --ask-vault-pass
 ```
 
-When prompted, enter the password used to encrypt the "secrets.yml" file.
+15. When prompted, enter the password used to encrypt the "secrets.yml" file.
 
-12. Verify that the website is deployed on the Windows host.
+16. Verify that the website is deployed on the Windows host.
