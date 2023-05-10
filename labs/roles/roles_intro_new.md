@@ -59,7 +59,7 @@ git add .
 git commit -m "added new roles"
 git push
 ```
-7. When prompted enter your git user name and when prompted for password paste in the personal access token created during setup.
+7. When prompted enter your git user name and when prompted for password paste in the personal access token created during an earlier lab.
 
 ## Step 4: Update the Ansible-working repo on the Windows Host 
 
