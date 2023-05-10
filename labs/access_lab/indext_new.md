@@ -48,7 +48,7 @@ Continue to do the following steps inside of Window Target 1 RDP Session
   1. Click the `Create Repository` button
   1. In the new repository click the `code` button to expose the `https url` for the repository
   1. Click the copy button to copy the `https url` for the repo to use in the next step
-
+  1. Create a personal access token to use for authentication to your repo from the ansible host. Intruction here: https://github.com/ProDataMan/ansible-best-practices-windows/labs/access_lab/GitHub_Personal_Access_Token.md 
 ## Open the newly create repository in VS Code
 
   1. Launch VS Code from the Start Menu or Task Bar
