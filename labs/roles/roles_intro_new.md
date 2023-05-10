@@ -53,17 +53,18 @@ Configure Ansible to connect with the `ansible` user account we will create in a
 
 ## Step 3: Commit and Push Changes to GitHub
 
-1. In the sidebar, click on the "Source Control" icon (it looks like a branch).
-2. In the File menu select Save All
-3. In the "Source Control" pane, review the changes you made to the file.
-4. Enter a commit message that describes the changes you made.
-5. Click the checkmark icon to commit the changes.
-6. Click on the "..." menu in the "Source Control" pane, and select "Push" to push the changes to GitHub.
+6. Use the following command to push changes to your `ansible-working` repository to keep it in sync
+```
+git add .
+git commit -m "added new roles"
+git push
+```
+7. When prompted enter your git user name and when prompted for password paste in the personal access token created during setup.
 
 ## Step 4: Update the Ansible-working repo on the Windows Host 
 
 1. In VS Code on the Source Control Pane
-2. Perform a Pull or a Sync of the ansible-working so that we can edit the new roles
+2. Perform a Pull or a Sync of the ansible-working repo so that you can edit the new roles
 
 ## Step 5: Creating a Windows User with Permissions
 
