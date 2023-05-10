@@ -1,4 +1,4 @@
-# Lab Title: Using AAP to Manage Windows Hosts
+# Lab: Using AAP to Manage Windows Hosts
 
 Lab Objective: In this lab, you will learn how to use AWX with AAP to manage Windows hosts. You will configure AWX with the necessary credentials to allow it to authenticate against a Windows host using AAP, and then you will run an ad-hoc command against the Windows host to verify the connection.
 
