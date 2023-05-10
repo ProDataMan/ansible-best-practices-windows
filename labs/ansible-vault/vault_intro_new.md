@@ -12,7 +12,6 @@ Perform the following steps on Windows Target 1 in VS Code
 3. In the "vault" directory, create a new file named "secrets.yml" and add the following content:
 
 ```
----
 ansible_user: Administrator
 ansible_password: JustM300
 db_username: dbuser
