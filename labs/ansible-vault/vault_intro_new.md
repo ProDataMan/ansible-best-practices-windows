@@ -34,7 +34,6 @@ When prompted, enter a password to use for encrypting the file.
 - name: Ensure IIS is installed and started 
   hosts: webservers
   become: yes 
-  become_method: runas
   become_user: Administrator
   vars_files:
     - vault/secrets.yml
@@ -63,7 +62,7 @@ When prompted, enter a password to use for encrypting the file.
         db_username: "{{ db_username }}"
         db_password: "{{ db_password }}"
       become: true
-- name: Ensure IIS is started
+    - name: Ensure IIS is started
       win_service:
         name: "{{ service_name }}"
         state: started
