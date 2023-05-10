@@ -18,8 +18,13 @@ ansible_password: JustM300
 db_username: dbuser
 db_password: pass1234
 ```
-
-4. Encrypt the "secrets.yml" file using Ansible Vault with the following command:
+4. In the "vault" directory, create a new file named "win_connect.yml" and add the following content:
+```
+ansible_connection: winrm
+ansible_winrm_transport: ntlm
+ansible_winrm_server_cert_validation: ignore
+```
+5. Encrypt the "secrets.yml" file using Ansible Vault with the following command:
 
 ```
 ansible-vault encrypt vault/secrets.yml
@@ -27,7 +32,7 @@ ansible-vault encrypt vault/secrets.yml
 
 When prompted, enter a password to use for encrypting the file.
 
-5. Create a new playbook named "deploy_website.yml" in the "ansible-working" repository and add the following content:
+6. Create a new playbook named "deploy_website.yml" in the "ansible-working" repository and add the following content:
 
 ```
 ---
@@ -68,11 +73,11 @@ When prompted, enter a password to use for encrypting the file.
         state: started
 ```
 
-6. Save the changes to the playbook and commit them to the "ansible-working" repository using the Source Control pane in Visual Studio Code.
-7. Push the changes to the "ansible-working" repository on GitHub using the Source Control pane in Visual Studio Code.
-8. Switch to the Ansible control host and navigate to the directory where the "ansible-working" repository was cloned.
-9. Use the "git pull" command to update the cloned repository with the latest changes.
-10. Run the "deploy_website.yml" playbook against the Windows host using the following command:
+7. Save the changes to the playbook and commit them to the "ansible-working" repository using the Source Control pane in Visual Studio Code.
+8. Push the changes to the "ansible-working" repository on GitHub using the Source Control pane in Visual Studio Code.
+9. Switch to the Ansible control host and navigate to the directory where the "ansible-working" repository was cloned.
+10. Use the "git pull" command to update the cloned repository with the latest changes.
+11. Run the "deploy_website.yml" playbook against the Windows host using the following command:
 
 ```
 ansible-playbook deploy_website.yml --ask-vault-pass
@@ -80,4 +85,4 @@ ansible-playbook deploy_website.yml --ask-vault-pass
 
 When prompted, enter the password used to encrypt the "secrets.yml" file.
 
-11. Verify that the website is deployed on the Windows host.
+12. Verify that the website is deployed on the Windows host.
