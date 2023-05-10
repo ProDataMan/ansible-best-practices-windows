@@ -61,7 +61,7 @@ Go to **Resources → Projects** in the side menu view click the **Add** button.
 
 Now fill in the **Type Details**: 
 
-**Source Control URL**: https://github.com/jruels/workshop-examples
+**Source Control URL**: https://github.com/<your account>/ansible-working
 
 **Options**: Select Clean, Delete, Update Revision on Launch to request a fresh copy of the repository and to update the repository when launching a job.
 
@@ -102,9 +102,9 @@ Fill in the following:
 
 * **Playbook**: create_user.yml
 
-* **Credentials**: Linux credentials
+* **Credentials**: win_cred
 
-* **Options**: The tasks need to run as `root` so check **Privilege Escalation**
+* **Options**: The tasks need to run as `admin` so check **Privilege Escalation**
 
 * Click **Save**
 
@@ -116,13 +116,13 @@ Go to **Resources → Inventories**, and click **First Inventory**.
 
 At the top of the screen click **Groups** and then **Add**. Fill in the following: 
 
-* **Name**: web
+* **Name**: webservers
 
 * **Description**: A group for web servers
 
 * Click **Save**
 
-At the top of the page click **Hosts**, **Add**, **Add existing host,** and select **Server1**
+At the top of the page click **Hosts**, **Add**, **Add existing host,** and select **webserver1**
 
 
 
