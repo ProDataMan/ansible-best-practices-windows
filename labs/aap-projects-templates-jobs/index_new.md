@@ -15,63 +15,33 @@ For this lab we will use a playbook stored in this Git repository
 A playbook to manage users, and groups. The playbook is `create_user.yml`
 
 ```yaml
----
-- name: Ansible Create user functionlity module demo
-  hosts: web # Defining the remote server inventory host group
+- name: Create Windows group and user
+  hosts: webservers
   become: yes
-  # Defining the remote server where the ansible create user module
-  # will manage the objects
-  remote_user: ansible # Using Remote user as ubuntu
+  become_method: runas
+  become_user: Administrator
+  vars_files:
+  - vault/credentials.yml
+  - vault/win_connect.yml
   tasks:
-
-  # name - Defines the username that is present or to create
-  # groups - Adds users in secondary groups or use groups
-  # state: present - Creates a user or works with a user
-  # state: absent - Deletes a user
-  # shell - Specifies shell-type a user can work on
-  # home - Sets a user’s home directory
-  # createhome: yes - Create a home directory for a user
-  # createhome: no - Do not create a home directory for a user
-
-    # Adding the ansible group
-    - name: Add group "ansible" to remote node
-      group:
-        name: ansible
-        gid: 2245
+    - name: Create Remote Admins group
+      win_group:
+        name: Remote Admins
         state: present
 
+    - name: Grant Remote Desktop permissions to Remote Admins group
+      win_acl:
+        path: 'hklm:\system\currentcontrolset\control\terminal server'
+        user: 'Remote Admins'
+        rights: 'FullControl'
+        type: allow
 
-  # Creating the user Adam Listek
-    - name: Add the user 'Adam Listek' with a specific uid
-      ansible.builtin.user:
-        name: adamlis
-        comment: AdamListek
-        uid: 1077
-        group: ansible
-        createhome: yes        # Defaults to yes
-        home: /home/adamlis    # Defaults to /home/<username>
-
-  # Adding the user qa_editor in the editor group
-    - name: Add group "qa_editor" to remote node
-      group:
-        name: qa_editor
-        gid: 2212
+    - name: Create user Bob and add to Remote Admins group
+      win_user:
+        name: Bob
+        password: 'P@ssw0rd'
+        groups: 'Remote Admins'
         state: present
-
-  # Adding the user Rochela in the qa_editor group and bash shell
-    - name: Add the user 'Rochella' with a bash shell, appending the group 'editor' to the user's groups
-      ansible.builtin.user:
-        name: rochella
-        shell: /bin/bash
-        groups: qa_editor
-        append: yes
-
-# Removing the user shanky from the system
-    - name: Remove the user 'Shanky' if present in the linux system
-      ansible.builtin.user:
-        name: shanky3
-        state: absent
-        remove: yes
 ```
 
 
