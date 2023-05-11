@@ -59,7 +59,7 @@ Go to **Resources → Projects** in the side menu view click the **Add** button.
 
 Now fill in the **Type Details**: 
 
-**Source Control URL**: https://github.com/<your account>/ansible-working
+**Source Control URL**: https://github.com/(your account)/ansible-working
 
 **Options**: Select Clean, Delete, Update Revision on Launch to request a fresh copy of the repository and to update the repository when launching a job.
 
