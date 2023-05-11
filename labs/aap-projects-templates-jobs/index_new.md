@@ -101,6 +101,12 @@ Fill in the following:
 * **Playbook**: create_user.yml
 
 * **Credentials**: win_cred
+* **Variables**:
+  ```
+  #Database details
+  ip_address: 192.168.2.2
+  database_name: Adventrueworks
+  ```
 
 * **Options**: The tasks need to run as `admin` so check **Privilege Escalation**
 
