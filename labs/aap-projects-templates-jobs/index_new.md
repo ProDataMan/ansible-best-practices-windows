@@ -10,8 +10,6 @@ You should definitely keep your playbooks under version control. In this lab weâ
 
 For this lab we will create a new playbook in your  `ansible-working` Git repository and reference that repo from AAP 
 
-[https://github.com/<your account/andible-working>](https://github.com/<your account>/ansible-working)
-
 Create a playbook to manage users, and groups. Name the playbook `create_user.yml`
 
 ```yaml
@@ -20,9 +18,6 @@ Create a playbook to manage users, and groups. Name the playbook `create_user.ym
   become: yes
   become_method: runas
   become_user: Administrator
-  vars_files:
-  - vault/credentials.yml
-  - vault/win_connect.yml
   tasks:
     - name: Create Remote Admins group
       win_group:
@@ -127,8 +122,6 @@ At the top of the screen click **Groups** and then **Add**. Fill in the followin
 * Click **Save**
 
 At the top of the page click **Hosts**, **Add**, **Add existing host,** and select **webserver1**
-
-
 
 
 
