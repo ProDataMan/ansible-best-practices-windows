@@ -139,7 +139,7 @@ User the explorer pane in VS Code to navigate to the appropriate folders and edi
    <?xml version="1.0" encoding="UTF-8"?>
    <configuration>
      <appSettings>
-       <add key="sqlConnectionString" value="Server={{ ip_address }};Database={{ database_name }};User ID={{ db_username }};Password={{ db_password }};"/>
+    {% raw %} <add key="sqlConnectionString" value="Server={{ ip_address }};Database={{ database_name }};User ID={{ db_username }};Password={{ db_password }};"/> {% endraw %}
      </appSettings>
    </configuration>
    ```
