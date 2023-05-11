@@ -2,17 +2,17 @@
 
 An Automation Platform **Project** is a logical collection of Ansible playbooks. You can manage your playbooks by placing them into a source code management (SCM) system supported by AAP, including Git/GitHub, Subversion, and Mercurial.
 
-You should definitely keep your playbooks under version control. In this lab we’ll use playbooks that are provided in a GitHub repository.
+You should definitely keep your playbooks under version control. In this lab we’ll use playbooks crated and stored in your `ansible-working` GitHub repository.
 
 
 
-## Setup Git Repository
+## Crate the create_user.yml playbook
 
-For this lab we will use a playbook stored in your  `ansible-working` Git repository
+For this lab we will create a new playbook in your  `ansible-working` Git repository and reference that repo from AAP 
 
 [https://github.com/<your account/andible-working](https://github.com/<your account>/ansible-working)
 
-A playbook to manage users, and groups. The playbook is `create_user.yml`
+Create a playbook to manage users, and groups. Name the playbook `create_user.yml`
 
 ```yaml
 - name: Create Windows group and user
@@ -43,8 +43,6 @@ A playbook to manage users, and groups. The playbook is `create_user.yml`
         groups: 'Remote Admins'
         state: present
 ```
-
-
 
 To configure and use this repository as a **Source Control Management (SCM)** system in AAP you have to create a **Project** that uses the repository
 
