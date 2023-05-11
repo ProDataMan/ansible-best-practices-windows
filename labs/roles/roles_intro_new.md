@@ -74,24 +74,33 @@ User the explorer pane in VS Code to navigate to the appropriate folders and edi
 1. Open the `tasks/main.yml` file in the `create-user` role and add the following code:
 
    ```
-   - name: Create ansible user
-     win_user:
-       name: ansible
-       password: "{{ vault_ansible_password }}" # replace with your own encrypted password
-       state: present
-       groups: Administrators
+   - name: Create Windows group and user
+     hosts: webservers
      become: yes
+     become_method: runas
+     become_user: Administrator
+     vars_files:
+     - vault/credentials.yml
+     - vault/win_connect.yml
+     tasks:
+       - name: Create Remote Admins group
+         win_group:
+           name: Remote Admins
+           state: present
 
-   - name: Check if user is already a member of the group
-     win_command: 'net localgroup "Administrators" ansible'
-     become: yes
-     ignore_errors: yes
-     register: result
+       - name: Grant Remote Desktop permissions to Remote Admins group
+         win_acl:
+           path: 'hklm:\system\currentcontrolset\control\terminal server'
+           user: 'Remote Admins'
+           rights: 'FullControl'
+           type: allow
 
-   - name: Add user to the group if not already a member
-     win_command: 'net localgroup "Administrators" ansible /add'
-     become: yes
-     when: "'The specified account name is already a member of the group.' not in result.stderr"
+       - name: Create user Bob and add to Remote Admins group
+         win_user:
+           name: Bob
+           password: 'P@ssw0rd'
+           groups: 'Remote Admins'
+           state: present
    ```
 
    This code creates a new user named `ansible` with the password `Password123`, adds the user to the `Administrators` group, grants the user remote desktop access, and grants the user administrator privileges.
