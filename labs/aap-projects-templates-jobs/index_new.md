@@ -108,7 +108,7 @@ Fill in the following:
 
 
 
-This playbook targets hosts in the `web` group. We need to add our servers to the `web` group. 
+This playbook targets hosts in the `webservers` group. We need to add our servers to the `webservers` group. 
 
 Go to **Resources → Inventories**, and click **First Inventory**. 
 
