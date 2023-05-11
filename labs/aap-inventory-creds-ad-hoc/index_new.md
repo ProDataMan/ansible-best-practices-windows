@@ -14,7 +14,7 @@ Lab Steps:
    * Password: "JustM300"
    
 1. Click the Save button to save your credential
-1. Navigate to the `Inventories` section and add a new Inventory named `AAP Inventory` witht the following settings:
+1. Navigate to the `Inventories` section and add a new Inventory named `AAP Inventory` with the following settings:
 
     * Name: AAP Inventory
     * Organization: Default
