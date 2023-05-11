@@ -100,7 +100,7 @@ You enabled a restricted user to run an Ansible playbook
 - Without being able to change the playbook itself
 - But with the ability to change variables you predefined
 
-Effectively you provided the power to execute automation to another user without handing out your credentials or giving the user the ability to change the automation code. And yet, at the same time the user can still modify things based on the surveys you created.
+Effectively you provided the power to execute automation to another user without handing out your credentials or giving the user the ability to change the automation code. And yet, at the same time the user can still modify things based playbooks you created.
 
 This capability is one of the main strengths of Ansible automation controller.
 
