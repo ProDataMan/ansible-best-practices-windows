@@ -69,13 +69,13 @@ Permissions allow to read, modify, and administer projects, inventories, and oth
 
 To allow users or teams to actually do something, you have to set permissions. The user **wweb** should only be allowed to modify content of the assigned webservers.
 
-Add the permission to use the `Create index.html` template:
+Add the permission to use the `Uninstall IIS` template:
 
-- Within **Resources** -> **Templates**, select `Create index.html`.
+- Within **Resources** -> **Templates**, select `Uninstall IIS`.
 - Select **Access** tab from the menu and click **Add**.
-- Within the **Select a Resource Type** window, click on the **Users** resource type and click **Next**.
-- Within the **Select Items from List**, select the checkbox next to the `wweb` user and click **Next**.
-- Within the **Select Roles to Apply**, select **Read** and **Execute** as the roles to apply to the `wweb` user.
+- Within the **Select a Resource Type** window, click on the **Team** resource type and click **Next**.
+- Within the **Select Items from List**, select the checkbox next to the `Web Content` team and click **Next**.
+- Within the **Select Roles to Apply**, select **Read** and **Execute** as the roles to apply to the `Web Content` team.
 - Click **Save**
 
 
@@ -86,15 +86,13 @@ Add the permission to use the `Create index.html` template:
 
 Now log out of Automation Controller’s web UI and in again as the **wweb** user.
 
-- Go to the **Templates** view, you should notice for **wweb** only the `Create index.html` template is listed. He is allowed to view and launch, but not to edit the Template (no Edit button available).
+- Go to the **Templates** view, you should notice for **wweb** only the `Uninstall IIS` template is listed. He is allowed to view and launch, but not to edit the Template (no Edit button available).
 - Run the Job Template by clicking the rocket icon. Enter the values for the survey questions and launch the job.
 - In the following **Jobs** view have a good look around, note that there were changes to the host (as expected).
 
-Check the result: execute `curl` again  to pull the content of the webserver on `centos` :
+After the Job has finished, confirm that IIS was uninstalled by running the following PowerShell command on the Windows node.
 
-```bash
-#> curl http://<your centos server's IP>
-```
+get-windowsfeature web-server
 
 You enabled a restricted user to run an Ansible playbook
 
