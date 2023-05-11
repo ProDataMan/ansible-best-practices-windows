@@ -10,7 +10,7 @@ You should definitely keep your playbooks under version control. In this lab weâ
 
 For this lab we will create a new playbook in your  `ansible-working` Git repository and reference that repo from AAP 
 
-[https://github.com/<your account/andible-working](https://github.com/<your account>/ansible-working)
+[https://github.com/<your account/andible-working>](https://github.com/<your account>/ansible-working)
 
 Create a playbook to manage users, and groups. Name the playbook `create_user.yml`
 
