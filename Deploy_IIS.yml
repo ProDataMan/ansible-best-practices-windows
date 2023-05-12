@@ -1,0 +1,20 @@
+---
+- name: Install IIS on Windows
+  hosts: webservers
+  become: yes
+  become_method: runas
+  become_user: Administrator
+  tasks:
+  - name: Install IIS Web Server Role
+    win_feature:
+      name: Web-Server
+      state: present
+  - name: Start World Wide Web Publishing Service
+    win_service:
+      name: W3SVC
+      start_mode: auto
+      state: started
+  - name: Create index.html file
+    win_copy:
+      content: "<html><head><title>Workflow</title></head><body><h1>Hello, World!</h1><p>It Works!</p></body></html>"
+      dest: "C:\\inetpub\\wwwroot\\index.html"

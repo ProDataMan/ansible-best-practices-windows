@@ -1,0 +1,6 @@
+---
+# tasks file for create-web-config-av
+- name: create web.config file
+  template:
+    src: templates/web.config.j2
+    dest: c:\inetpub\wwwroot\web.config
