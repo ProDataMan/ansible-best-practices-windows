@@ -12,36 +12,48 @@ Perform the following steps on Windows Target 1 in VS Code
 3. In the "vault" directory, create a new file named "secrets.yml" and add the following content:
 
 ```
----
 ansible_user: Administrator
 ansible_password: JustM300
 db_username: dbuser
 db_password: pass1234
 ```
-
-4. Encrypt the "secrets.yml" file using Ansible Vault with the following command:
+4. In the "vault" directory, create a new file named "win_connect.yml" and add the following content:
+```
+#windows connection details
+ansible_connection: winrm
+ansible_winrm_transport: ntlm
+ansible_winrm_server_cert_validation: ignore
+#Database details
+ip_address: 192.168.2.2
+database_name: Adventrueworks
+```
+5. Encrypt the "secrets.yml" file using Ansible Vault with the following command:
 
 ```
 ansible-vault encrypt vault/secrets.yml
 ```
 
-When prompted, enter a password to use for encrypting the file.
+6. When prompted, enter a password to use for encrypting the file.
+7. Create a personal access token to use for authentication to your repo from the ansible host. Intruction here: [https://github.com/ProDataMan/ansible-best-practices-windows/labs/access_lab/GitHub_Personal_Access_Token.md](https://github.com/ProDataMan/ansible-best-practices-windows/blob/main/labs/access_lab/GitHub_Personal_Access_Token.md)
+8. Use the following command to push changes to your `ansible-working` repository to keep it in sync
+```
+git add .
+git commit -m "encrypt secrets.yml"
+git push
+```
+9. When prompted enter your git user name and when prompted for password paste in the personal access token in an earlier step.
 
-5. Create a new playbook named "deploy_website.yml" in the "ansible-working" repository and add the following content:
+10. Create a new playbook named "deploy_website.yml" in the "ansible-working" repository and add the following content:
 
 ```
 ---
 - name: Ensure IIS is installed and started 
   hosts: webservers
   become: yes 
-  become_method: runas
   become_user: Administrator
   vars_files:
     - vault/secrets.yml
-  vars:
-    ansible_connection: winrm
-    ansible_winrm_server_cert_validation: ignore
-    service_name: IIS Admin Service   
+    - vault/win_connect.yml
   tasks:
     - name: Ensure IIS Server is present 
       win_feature:
@@ -52,33 +64,26 @@ When prompted, enter a password to use for encrypting the file.
         include_management_tools: yes  
     - name: Ensure latest web files are present
       win_copy:
-        src: files/
+        src: playbook-fun/files/
         dest: c:\inetpub\wwwroot\
         force: yes
     - name: Configure website
       win_template:
         src: templates/web.config.j2
         dest: C:\inetpub\wwwroot\web.config
-      vars:
-        db_username: "{{ db_username }}"
-        db_password: "{{ db_password }}"
       become: true
-- name: Ensure IIS is started
-      win_service:
-        name: "{{ service_name }}"
-        state: started
 ```
 
-6. Save the changes to the playbook and commit them to the "ansible-working" repository using the Source Control pane in Visual Studio Code.
-7. Push the changes to the "ansible-working" repository on GitHub using the Source Control pane in Visual Studio Code.
-8. Switch to the Ansible control host and navigate to the directory where the "ansible-working" repository was cloned.
-9. Use the "git pull" command to update the cloned repository with the latest changes.
-10. Run the "deploy_website.yml" playbook against the Windows host using the following command:
+11. Save the changes to the playbook and commit them to the "ansible-working" repository using the Source Control pane in Visual Studio Code.
+12. Push the changes to the "ansible-working" repository on GitHub using the Source Control pane in Visual Studio Code.
+13. Switch to the Ansible control host and navigate to the directory where the "ansible-working" repository was cloned.
+14. Use the "git pull" command to update the cloned repository with the latest changes.
+15. Run the "deploy_website.yml" playbook against the Windows host using the following command:
 
 ```
 ansible-playbook deploy_website.yml --ask-vault-pass
 ```
 
-When prompted, enter the password used to encrypt the "secrets.yml" file.
+16. When prompted, enter the password used to encrypt the "secrets.yml" file.
 
-11. Verify that the website is deployed on the Windows host.
+17. Verify that the website is deployed on the Windows host.

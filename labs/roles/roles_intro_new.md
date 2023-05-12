@@ -1,4 +1,4 @@
-# Lab Guide: Using Ansible Roles to Create a Windows User with Permissions, Connect Ansible with that Account, Install IIS, Create a Web.config File, and Copy Web Files
+# Lab: Using Ansible Roles to Create a Windows User with Permissions, Connect Ansible with that Account, Install IIS, Create a Web.config File, and Copy Web Files
 
 In this lab, you will learn how to use Ansible roles to break down the tasks of creating a Windows user with permissions to install services, connecting Ansible with that account, installing IIS, creating a Web.config file using a template, and copying web files to the `c:\inetpub\wwwroot` folder. You will edit files using Visual Studio Code, commit and push changes to your GitHub repository named `ansible-working`, and use an SSH connection in PuTTY to pull down the files to the Ansible Control host before executing the Ansible playbook.
 
@@ -53,17 +53,18 @@ Configure Ansible to connect with the `ansible` user account we will create in a
 
 ## Step 3: Commit and Push Changes to GitHub
 
-1. In the sidebar, click on the "Source Control" icon (it looks like a branch).
-2. In the File menu select Save All
-3. In the "Source Control" pane, review the changes you made to the file.
-4. Enter a commit message that describes the changes you made.
-5. Click the checkmark icon to commit the changes.
-6. Click on the "..." menu in the "Source Control" pane, and select "Push" to push the changes to GitHub.
+6. Use the following command to push changes to your `ansible-working` repository to keep it in sync
+```
+git add .
+git commit -m "added new roles"
+git push
+```
+7. When prompted enter your git user name and when prompted for password paste in the personal access token created during an earlier lab.
 
 ## Step 4: Update the Ansible-working repo on the Windows Host 
 
 1. In VS Code on the Source Control Pane
-2. Perform a Pull or a Sync of the ansible-working so that we can edit the new roles
+2. Perform a Pull or a Sync of the ansible-working repo so that you can edit the new roles
 
 ## Step 5: Creating a Windows User with Permissions
 
@@ -73,21 +74,33 @@ User the explorer pane in VS Code to navigate to the appropriate folders and edi
 1. Open the `tasks/main.yml` file in the `create-user` role and add the following code:
 
    ```
-   - name: Grant user privileges
-     win_command: 'net localgroup "Administrators" ansible /add'
+   - name: Create Windows group and user
+     hosts: webservers
      become: yes
-     ignore_errors: yes
-     register: result
+     become_method: runas
+     become_user: Administrator
+     vars_files:
+     - vault/credentials.yml
+     - vault/win_connect.yml
+     tasks:
+       - name: Create Remote Admins group
+         win_group:
+           name: Remote Admins
+           state: present
 
-   - name: Check if user is already a member of the group
-     debug:
-       msg: "User ansible is already a member of the Administrators group"
-     when: "'The specified account name is already a member of the group.' in result.stderr"
+       - name: Grant Remote Desktop permissions to Remote Admins group
+         win_acl:
+           path: 'hklm:\system\currentcontrolset\control\terminal server'
+           user: 'Remote Admins'
+           rights: 'FullControl'
+           type: allow
 
-   - name: Add user to the group if not already a member
-     win_command: 'net localgroup "Administrators" ansible /add'
-     become: yes
-     when: "'The specified account name is already a member of the group.' not in result.stderr"
+       - name: Create user Bob and add to Remote Admins group
+         win_user:
+           name: Bob
+           password: 'P@ssw0rd'
+           groups: 'Remote Admins'
+           state: present
    ```
 
    This code creates a new user named `ansible` with the password `Password123`, adds the user to the `Administrators` group, grants the user remote desktop access, and grants the user administrator privileges.
@@ -126,7 +139,7 @@ User the explorer pane in VS Code to navigate to the appropriate folders and edi
    <?xml version="1.0" encoding="UTF-8"?>
    <configuration>
      <appSettings>
-       <add key="sqlConnectionString" value="Server={{ ip_address }};Database={{ database_name }};User ID={{ db_username }};Password={{ db_password }};"/>
+    {% raw %} <add key="sqlConnectionString" value="Server={{ ip_address }};Database={{ database_name }};User ID={{ db_username }};Password={{ db_password }};"/> {% endraw %}
      </appSettings>
    </configuration>
    ```
