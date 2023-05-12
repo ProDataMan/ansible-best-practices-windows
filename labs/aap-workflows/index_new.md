@@ -28,21 +28,7 @@ When there is a new Node.js server to deploy, two things need to happen:
 
 ### Web operations team
 
-- `httpd`, `firewalld`, and `node.js` need to be installed, `SELinux` settings configured, the firewall needs to be opened, and `httpd` and `node.js` should get started.
-
-### Web developers team
-
-- The most recent version of the web application needs to be deployed and `node.js` needs to be restarted.
-
-In other words, the Web operations team prepares a server for application deployment, and the Web developers team deploys the application on the server.
-
-
-
-To make things somewhat easier for you, everything needed already exists in a Github repository: playbooks, JSP-files etc. You just need to glue it together.
-
-> **Note**
->
-> In this example we use two different branches of the same repository for the content of the separate teams. In reality, the structure of your Source Control repositories depends on a lot of factors and could be different.
+- Install IIS, Install MySQL, Configure the web app to use the new MYSQL server by updating its web.config with the MySQL server details
 
 ### Set up projects
 
@@ -67,21 +53,6 @@ Within **Resources** -> **Projects**, click the **Add** button to create a proje
 Click **Save**
 
 ------
-
-Within **Resources** -> **Projects**, click the **Add** button to create a project for the web developers team. Fill out the form as follows:
-
-| Parameter                        | Value                                             |
-| -------------------------------- | ------------------------------------------------- |
-| Name                             | Webdev Git Repo                                   |
-| Organization                     | Default                                           |
-| Default Execution Environment    | Default execution environment                         |
-| Source Control Credential Type   | Git                                               |
-| Source Control URL               | `https://github.com/jruels/workshop-examples.git` |
-| Source Control Branch/Tag/Commit | `webdev`                                          |
-| Options                          | ✓ Clean✓ Delete✓ Update Revision on Launch        |
-
-Click **Save**
-
 ### Set up job templates
 
 Now you have to create two Job Templates like you would for “normal” Jobs.
@@ -92,10 +63,10 @@ Within **Resources** -> **Templates**, click the **Add** button and choose **Add
 | --------------------- | ------------------------------------ |
 | Name                  | Web App Deploy                       |
 | Job Type              | Run                                  |
-| Inventory             | AAP Inventory                      |
+| Inventory             | AAP Inventory                        |
 | Project               | Webops Git Repo                      |
 | Execution Environment | Default execution environment        |
-| Playbook              | `rhel/webops/web_infrastructure.yml` |
+| Playbook              | `DeployIIS`                          |
 | Credentials           | Linux credentials                    |
 | Limit                 | web                                  |
 | Options               | ✓ Privilege Escalation               |
@@ -113,8 +84,8 @@ Within **Resources** -> **Templates**, click the **Add** button and choose **Add
 | Inventory             | AAP Inventory                      |
 | Project               | Webdev Git Repo                    |
 | Execution Environment | Default execution environment      |
-| Playbook              | `rhel/webdev/install_node_app.yml` |
-| Credentials           | win_cred                           |
+| Playbook              | `Deploy MySQL`                     |
+| Credentials           | linux                              |
 | Limit                 | webservers                         |
 | Options               | ✓ Privilege Escalation             |
 
@@ -123,7 +94,6 @@ Click **Save**
 > **Tip**
 >
 > If you want to know what the Ansible Playbooks look like, check out the Github URL and switch to the appropriate branches.
-
 
 
 ### Set up the workflow
@@ -159,7 +129,20 @@ Hover over the node and click the (+) sign to add a new node.
 
 > **TIP**: The run type allows for more complex workflows. You could lay out different execution paths for successful and for failed playbook runs.
 
-- For **Node Type** select **Job Template** (default) and choose the **Node.js Deploy** job template. Click **Save**.
+- For **Node Type** select **Job Template** (default) and choose the **Deploy MySQL** job template. Click **Save**.
+
+  ![Add Nodejs](https://aap2.demoredhat.com/exercises/ansible_rhel/2.6-workflows/images/add_node_nodejs.png)
+
+Click **Save** in the top right corner of the **Visualizier** view.
+
+
+Hover over the node and click the (+) sign to add a new node.
+
+- For the **Run Type** select **On Success** (default) and click **Next**.
+
+> **TIP**: The run type allows for more complex workflows. You could lay out different execution paths for successful and for failed playbook runs.
+
+- For **Node Type** select **Job Template** (default) and choose the **Update Web.Config** job template. Click **Save**.
 
   ![Add Nodejs](https://aap2.demoredhat.com/exercises/ansible_rhel/2.6-workflows/images/add_node_nodejs.png)
 
