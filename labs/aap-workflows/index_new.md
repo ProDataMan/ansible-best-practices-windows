@@ -92,7 +92,7 @@ Within **Resources** -> **Templates**, click the **Add** button and choose **Add
 | --------------------- | ------------------------------------ |
 | Name                  | Web App Deploy                       |
 | Job Type              | Run                                  |
-| Inventory             | First inventory                      |
+| Inventory             | AAP Inventory                      |
 | Project               | Webops Git Repo                      |
 | Execution Environment | Default execution environment        |
 | Playbook              | `rhel/webops/web_infrastructure.yml` |
@@ -110,12 +110,12 @@ Within **Resources** -> **Templates**, click the **Add** button and choose **Add
 | --------------------- | ---------------------------------- |
 | Name                  | Node.js Deploy                     |
 | Job Type              | Run                                |
-| Inventory             | First inventory                    |
+| Inventory             | AAP Inventory                      |
 | Project               | Webdev Git Repo                    |
 | Execution Environment | Default execution environment      |
 | Playbook              | `rhel/webdev/install_node_app.yml` |
-| Credentials           | Linux credentials                  |
-| Limit                 | web                                |
+| Credentials           | win_cred                           |
+| Limit                 | webservers                         |
 | Options               | ✓ Privilege Escalation             |
 
 Click **Save**
