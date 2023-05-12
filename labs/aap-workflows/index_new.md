@@ -6,8 +6,7 @@
 
 The basic idea of a workflow is to link multiple Job Templates together. They may or may not share inventory, playbooks, or even permissions. The links can be conditional:
 
-- if job template A succeeds, job template B is automatically executed afterward
-- but in case of failure, job template C will be run.
+- Job Deploy IIS and Deploy MySQL run in parallel and if Deploy IIS Succeeds then Configure web.config runs.
 
 And the workflows are not even limited to Job Templates, but can also include project or inventory updates.
 
@@ -21,18 +20,26 @@ In this lab, you’ll learn how to set up a workflow.
 
 You have two departments in your organization:
 
-- The web operations team that is developing playbooks in their own Git branch named `webops`
-- The web developers team that is developing playbooks in their own Git branch named `webdev`
-
-When there is a new Node.js server to deploy, two things need to happen:
+- The web operations team that is developing playbooks to deploy infrastructure for the development team who will deploy their application to the infrasture as they complete new versions
 
 ### Web operations team
 
 - Install IIS, Install MySQL, Configure the web app to use the new MYSQL server by updating its web.config with the MySQL server details
 
+### Create a linux credential
+add the cert that you used to connect to the ansible host to AAP name it linux
+
+### Add your Anible host to the AAP Inventory
+
+create a new host in the AAP Inventory
+
+* name: ubuntu_server 
+* credential: linux
+
+
 ### Set up projects
 
-First you have to set up the Git repo as a Project like you normally would.
+First you have to set up a reference to the ansible-best-practice-windows repo where the Deploy IIS, Deploy My SQL and Configure web.config playbook are stored
 
 > **Warning**
 >
@@ -44,10 +51,9 @@ Within **Resources** -> **Projects**, click the **Add** button to create a proje
 | -------------------------------- | ------------------------------------------------- |
 | Name                             | Webops Git Repo                                   |
 | Organization                     | Default                                           |
-| Execution Environment            | Default execution environment                         |
+| Execution Environment            | Default execution environment                     |
 | Source Control Credential Type   | Git                                               |
 | Source Control URL               | `https://github.com/jruels/workshop-examples.git` |
-| Source Control Branch/Tag/Commit | `webops`                                          |
 | Options                          | ✓ Clean✓ Delete✓ Update Revision on Launch        |
 
 Click **Save**
@@ -61,13 +67,13 @@ Within **Resources** -> **Templates**, click the **Add** button and choose **Add
 
 | Parameter             | Value                                |
 | --------------------- | ------------------------------------ |
-| Name                  | Web App Deploy                       |
+| Name                  | Deploy IIS                           |
 | Job Type              | Run                                  |
 | Inventory             | AAP Inventory                        |
 | Project               | Webops Git Repo                      |
 | Execution Environment | Default execution environment        |
-| Playbook              | `DeployIIS`                          |
-| Credentials           | Linux credentials                    |
+| Playbook              | `Deploy IIS`                         |
+| Credentials           | win_cred                             |
 | Limit                 | web                                  |
 | Options               | ✓ Privilege Escalation               |
 
@@ -79,13 +85,31 @@ Within **Resources** -> **Templates**, click the **Add** button and choose **Add
 
 | Parameter             | Value                              |
 | --------------------- | ---------------------------------- |
-| Name                  | Node.js Deploy                     |
+| Name                  | Deploy MySQL                       |
 | Job Type              | Run                                |
 | Inventory             | AAP Inventory                      |
 | Project               | Webdev Git Repo                    |
 | Execution Environment | Default execution environment      |
 | Playbook              | `Deploy MySQL`                     |
 | Credentials           | linux                              |
+| Limit                 | webservers                         |
+| Options               | ✓ Privilege Escalation             |
+
+Click **Save**
+
+------
+
+Within **Resources** -> **Templates**, click the **Add** button and choose **Add job template**:
+
+| Parameter             | Value                              |
+| --------------------- | ---------------------------------- |
+| Name                  | Update web.config                  |
+| Job Type              | Run                                |
+| Inventory             | AAP Inventory                      |
+| Project               | Webdev Git Repo                    |
+| Execution Environment | Default execution environment      |
+| Playbook              | `Web_Deploy_Workflow.yml`          |
+| Credentials           | win_cred                           |
 | Limit                 | webservers                         |
 | Options               | ✓ Privilege Escalation             |
 
